@@ -1,0 +1,45 @@
+# CLI tools required by these dotfiles
+
+# Shell
+zsh
+antidote         # zsh plugin manager
+
+# Terminal
+fastfetch        # system info on startup
+fzf              # fuzzy finder
+zoxide           # smart cd
+yazi             # file manager
+
+# Modern unix replacements
+bat              # cat
+eza              # ls
+ripgrep          # grep
+fd               # find
+btop             # top
+
+# Git
+git
+delta            # git pager/diff viewer
+
+# Editors
+neovim
+tmux
+
+# Formatters (used by neovim/conform)
+stylua
+prettierd
+black
+rustfmt
+clang-format
+tex-fmt
+
+# Language servers (used by neovim/lspconfig)
+clangd
+pyright
+rust-analyzer
+typescript-language-server
+lua-language-server
+
+# LaTeX
+latexmk
+skim             # macOS PDF viewer (used by vimtex)
