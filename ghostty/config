@@ -1,0 +1,23 @@
+# ---Appearance---
+
+theme = Gruvbox Dark
+
+font-family = Iosevka Term
+font-size = 15
+font-feature = -calt
+
+background-blur = true
+
+# ---macOS---
+
+macos-titlebar-style = tabs
+macos-icon = glass
+macos-window-buttons = hidden
+
+# Use Option key as Alt (needed for terminal shortcuts)
+macos-option-as-alt = true
+
+# ---Keybindings---
+
+# Global hotkey to toggle Ghostty visibility
+keybind = global:alt+`=toggle_visibility

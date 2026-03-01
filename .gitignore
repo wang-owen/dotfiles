@@ -1,0 +1,5 @@
+zsh/.zcompdump
+zsh/.zsh_plugins.zsh
+zsh/.zsh_sessions
+nvim/.stylua.toml
+nvim/lazy-lock.json

@@ -1,0 +1,14 @@
+return {
+  'ellisonleao/gruvbox.nvim',
+  lazy = false,
+  priority = 1000,
+  opts = {
+    italic = {
+      strings = false,
+      emphasis = false,
+      comments = false,
+      operators = false,
+      folds = false,
+    },
+  },
+}
