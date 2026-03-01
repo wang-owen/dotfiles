@@ -1,0 +1,14 @@
+# Powerlevel10k
+romkatv/powerlevel10k
+
+# zsh-users
+zsh-users/zsh-syntax-highlighting
+zsh-users/zsh-completions
+zsh-users/zsh-autosuggestions
+
+# Oh My Zsh
+getantidote/use-omz       # handle OMZ dependencies
+ohmyzsh/ohmyzsh path:lib  # load OMZ's library
+ohmyzsh/ohmyzsh path:plugins/web-search
+ohmyzsh/ohmyzsh path:plugins/copyfile
+
