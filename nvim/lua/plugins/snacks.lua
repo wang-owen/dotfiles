@@ -18,6 +18,7 @@ return {
     },
     picker = {
       enabled = true,
+      formatters = { file = { filename_first = true } },
       win = {
         input = {
           keys = {
@@ -26,25 +27,12 @@ return {
         },
       },
       sources = {
+        explorer = { hidden = true },
         files = {
+          ignored = false,
           hidden = true,
-          exclude = {
-            '.git',
-            '.DS_Store',
-            '.Trash',
-            '.cache',
-            '.npm',
-            '.node_modules',
-            '.venv',
-            '__pycache__',
-            '.vscode',
-            '.cargo',
-            'CMakeFiles',
-            'CMakeCache.txt',
-          },
         },
       },
     },
-    image = {},
   },
 }
