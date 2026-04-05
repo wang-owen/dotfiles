@@ -7,12 +7,12 @@ vim.keymap.set('i', '<S-Tab>', '<C-d>', { desc = 'Un-indent' })
 -- Copy line down
 vim.keymap.set('n', '<A-S-Down>', ':copy .<CR>', { desc = 'Copy line down' })
 vim.keymap.set('i', '<A-S-Down>', '<Esc>:copy .<CR>gi', { desc = 'Copy line down' })
-vim.keymap.set('v', '<A-S-Down>', ":copy '> <CR>gv", { desc = 'Copy selection down' })
+vim.keymap.set('x', '<A-S-Down>', ":copy '><CR>`[V`]", { desc = 'Copy selection down' })
 
 -- Copy line up
 vim.keymap.set('n', '<A-S-Up>', ':copy .-1<CR>', { desc = 'Copy line up' })
 vim.keymap.set('i', '<A-S-Up>', '<Esc>:copy .-1<CR>gi', { desc = 'Copy line up' })
-vim.keymap.set('v', '<A-S-Up>', ":copy '<-1<CR>gv", { desc = 'Copy selection up' })
+vim.keymap.set('x', '<A-S-Up>', ":copy '<-1<CR>`[V`]", { desc = 'Copy selection up' })
 
 -- Drag lines
 vim.keymap.set('n', '<A-Down>', '<cmd>m .+1<cr>==', { desc = 'Move line down' })
