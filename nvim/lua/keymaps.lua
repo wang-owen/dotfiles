@@ -19,8 +19,8 @@ vim.keymap.set('n', '<A-Down>', '<cmd>m .+1<cr>==', { desc = 'Move line down' })
 vim.keymap.set('n', '<A-Up>', '<cmd>m .-2<cr>==', { desc = 'Move line up' })
 vim.keymap.set('i', '<A-Down>', '<Esc><cmd>m .+1<cr>==gi', { desc = 'Move line down' })
 vim.keymap.set('i', '<A-Up>', '<Esc><cmd>m .-2<cr>==gi', { desc = 'Move line up' })
-vim.keymap.set('v', '<A-Down>', ":'<,'>m '>+1<cr>gv=gv", { desc = 'Move selection down' })
-vim.keymap.set('v', '<A-Up>', ":'<,'>m '<-2<cr>gv=gv", { desc = 'Move selection up' })
+vim.keymap.set('x', '<A-Down>', ":move '>+1<CR>`[V`]", { desc = 'Move selection down' })
+vim.keymap.set('x', '<A-Up>', ":move '<-2<CR>`[V`]", { desc = 'Move selection up' })
 
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>', { desc = 'Clear search highlight' })
 
