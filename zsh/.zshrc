@@ -83,6 +83,23 @@ function y() {
 	rm -f -- "$tmp"
 }
 
+# nvim — launch Neovim and sync shell cwd to Neovim's final cwd on exit
+function nvim() {
+  local tmp cwd exit_code
+  tmp="$(mktemp -t "nvim-cwd.XXXXXX")" || return 1
+
+  NVIM_CWD_FILE="$tmp" command nvim "$@"
+  exit_code=$?
+
+  if [[ -r "$tmp" ]]; then
+    cwd="$(<"$tmp")"
+    if [[ -n "$cwd" && "$cwd" != "$PWD" && -d "$cwd" ]]; then builtin cd -- "$cwd"; fi
+  fi
+
+  rm -f -- "$tmp"
+  return "$exit_code"
+}
+
 # Shell integrations
 eval "$(fzf --zsh)"                       # fzf key bindings and fuzzy completion
 eval "$(zoxide init zsh --cmd cd)"        # zoxide: smarter cd with frecency
