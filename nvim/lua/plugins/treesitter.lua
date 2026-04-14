@@ -4,24 +4,8 @@ return {
   build = ':TSUpdate',
   config = function()
     local treesitter = require 'nvim-treesitter'
-    treesitter.setup()
-
-    treesitter.install = {
-      'c',
-      'cpp',
-      'javascript',
-      'lua',
-      'markdown',
-      'markdown_inline',
-      'python',
-      'rust',
-      'typescript',
-      'vim',
-      'vimdoc',
-    }
-
-    vim.api.nvim_create_autocmd('FileType', {
-      pattern = {
+    treesitter.setup {
+      ensure_installed = {
         'c',
         'cpp',
         'javascript',
@@ -33,6 +17,20 @@ return {
         'typescript',
         'vim',
         'vimdoc',
+      },
+    }
+
+    vim.api.nvim_create_autocmd('FileType', {
+      pattern = {
+        'c',
+        'cpp',
+        'javascript',
+        'lua',
+        'markdown',
+        'python',
+        'rust',
+        'typescript',
+        'vim',
       },
       callback = function()
         vim.treesitter.start()
