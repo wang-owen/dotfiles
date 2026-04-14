@@ -5,8 +5,10 @@ theme = Gruvbox Dark
 font-family = Iosevka Term
 font-size = 16
 font-feature = -calt
-
+	
 background-blur = true
+
+mouse-hide-while-typing = true
 
 # ---macOS---
 
