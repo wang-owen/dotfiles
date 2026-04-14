@@ -3,6 +3,11 @@ if vim.fn.isdirectory '/opt/homebrew/bin' == 1 then vim.env.PATH = '/opt/homebre
 
 vim.opt.termguicolors = true -- Enable 24-bit RGB color
 
+vim.opt.tabstop = 2 -- Number of spaces that a <Tab> in the file counts for
+vim.opt.shiftwidth = 2 -- Number of spaces to use for each step of (auto)indent
+vim.opt.expandtab = true -- Convert tabs to spaces
+vim.opt.softtabstop = 2 -- Number of spaces that a <Tab> counts for while performing editing operations
+
 vim.opt.number = true -- Show line numbers
 vim.opt.mouse = 'a' -- Enable mouse support in all modes
 vim.opt.showmode = false -- Hide mode indicator (e.g. -- INSERT --), shown in statusline instead
