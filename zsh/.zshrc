@@ -21,6 +21,10 @@ export EZA_ICONS_AUTO=1  # Show icons in eza output
 # Source antidote plugin manager
 source $(brew --prefix)/opt/antidote/share/antidote/antidote.zsh
 
+# Auto-update plugins weekly (interval in seconds; 604800 = 7 days)
+zstyle ':antidote:bundle' use-cache true
+zstyle ':antidote:plugin:*' update-interval 604800
+
 # Initialize plugins statically with ${ZDOTDIR:-~}/.zsh_plugins.txt
 antidote load
 unsetopt AUTO_CD  # OMZ lib enables this; conflicts with zoxide's fuzzy cd
