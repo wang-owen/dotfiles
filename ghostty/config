@@ -1,13 +1,14 @@
 # ---Appearance---
 
 theme = Gruvbox Dark
+background-blur = true
 
 font-family = Iosevka Term
 font-size = 16
 font-feature = -calt
-	
-background-blur = true
 
+cursor-style = block
+shell-integration-features = no-cursor
 mouse-hide-while-typing = true
 
 # ---macOS---
