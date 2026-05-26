@@ -3,38 +3,24 @@ return {
   lazy = false,
   build = ':TSUpdate',
   config = function()
-    local treesitter = require 'nvim-treesitter'
-    treesitter.setup {
-      ensure_installed = {
-        'c',
-        'cpp',
-        'javascript',
-        'lua',
-        'markdown',
-        'markdown_inline',
-        'python',
-        'rust',
-        'typescript',
-        'vim',
-        'vimdoc',
-      },
+    require('nvim-treesitter').install {
+      'lua',
+      'vim',
+      'vimdoc',
+      'query',
+      'c',
+      'cpp',
+      'python',
+      'rust',
+      'typescript',
     }
 
     vim.api.nvim_create_autocmd('FileType', {
-      pattern = {
-        'c',
-        'cpp',
-        'javascript',
-        'lua',
-        'markdown',
-        'python',
-        'rust',
-        'typescript',
-        'vim',
-      },
+      desc = 'Enable Treesitter highlighting & indentation',
+      pattern = { 'lua', 'vim', 'help', 'query', 'c', 'cpp', 'python', 'rust', 'typescript' },
       callback = function()
-        vim.treesitter.start()
-        vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        pcall(vim.treesitter.start)
+        pcall(function() vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()" end)
       end,
     })
   end,
