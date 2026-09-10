@@ -255,5 +255,5 @@ Z = 1
 
 # Excluded apps
 [[on-window-detected]]
-    if.app-name-regex-substring = 'Finder|System Preferences|Mail|Reminders|Calendar|Maps|Music|Messages|Weather'
+    if.app-name-regex-substring = 'Finder|System Preferences|Mail|Reminders|Calendar|Maps|Music|Messages|Weather|Discord|IINA|Steam|Riot Client'
     run = 'layout floating'
