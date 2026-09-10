@@ -1,6 +1,6 @@
 # ---Appearance---
 
-theme = Gruvbox Dark
+theme = Gruvbox Dark Hard
 background-blur = true
 
 font-family = Iosevka Term
