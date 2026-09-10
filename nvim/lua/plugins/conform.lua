@@ -20,6 +20,7 @@ return {
       rust = { 'rustfmt' },
       javascript = { 'prettierd' },
       typescript = { 'prettierd' },
+      cmake = { 'cmake_format' },
     },
   },
 }

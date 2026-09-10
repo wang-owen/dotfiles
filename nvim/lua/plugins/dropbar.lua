@@ -1,5 +1,6 @@
 return {
   'Bekaboo/dropbar.nvim',
+  event = { 'BufReadPost', 'BufNewFile' },
   keys = {
     { '<leader>;', function() require('dropbar.api').pick() end, desc = 'Pick symbols in winbar' },
     { '[;', function() require('dropbar.api').goto_context_start() end, desc = 'Go to start of current context' },

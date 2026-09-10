@@ -5,6 +5,7 @@ return {
   keys = {
     -- Terminals & Notifier
     { '<leader>t', function() Snacks.terminal() end, mode = 'n', desc = 'Toggle Terminal' },
+    { '<leader>e', function() Snacks.explorer() end, desc = 'File Explorer' },
     { '<leader>n', function() Snacks.notifier.show_history() end, desc = 'Notification history' },
 
     -- Finder/Search
@@ -22,10 +23,9 @@ return {
     { '<leader>/', function() Snacks.picker.lines() end, desc = '[/] Fuzzily search in current buffer' },
   },
   opts = {
-    notifier = { enabled = true, timeout = 5000, style = 'fancy' },
-    select = { enabled = true },
+    notifier = { timeout = 5000, style = 'fancy' },
+    select = {},
     terminal = {
-      enabled = true,
       win = {
         position = 'float',
         height = 0.8,
@@ -33,7 +33,6 @@ return {
       },
     },
     picker = {
-      enabled = true,
       formatters = { file = { filename_first = true } },
       win = {
         input = {
@@ -43,11 +42,8 @@ return {
         },
       },
       sources = {
-        explorer = { hidden = true },
-        files = {
-          ignored = false,
-          hidden = true,
-        },
+        explorer = { hidden = true, ignored = false },
+        files = { hidden = true, ignored = false },
       },
     },
   },

@@ -1,4 +1,7 @@
-vim.keymap.set('n', '<leader>w', '<cmd>w<cr>', { desc = 'Save file' })
+vim.keymap.set('n', '<leader>w', function()
+  require('conform').format { lsp_format = 'fallback' }
+  vim.cmd.write()
+end, { desc = 'Format and save file' })
 
 vim.keymap.set('i', '<A-BS>', '<C-w>', { desc = 'Delete word before cursor' })
 vim.keymap.set('i', '<A-Del>', '<C-o>dw', { desc = 'Delete word after cursor' })
@@ -25,7 +28,7 @@ vim.keymap.set('x', '<A-Up>', ":move '<-2<CR>`[V`]", { desc = 'Move selection up
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>', { desc = 'Clear search highlight' })
 
 -- Resize splits
-vim.keymap.set('n', '<A-h>', '2<C-w><', { desc = 'Shrink window width' })
-vim.keymap.set('n', '<A-l>', '2<C-w>>', { desc = 'Grow window width' })
-vim.keymap.set('n', '<A-j>', '2<C-w>+', { desc = 'Grow window height' })
-vim.keymap.set('n', '<A-k>', '2<C-w>-', { desc = 'Shrink window height' })
+vim.keymap.set('n', '<C-S-h>', '2<C-w><', { desc = 'Shrink window width' })
+vim.keymap.set('n', '<C-S-l>', '2<C-w>>', { desc = 'Grow window width' })
+vim.keymap.set('n', '<C-S-j>', '2<C-w>+', { desc = 'Grow window height' })
+vim.keymap.set('n', '<C-S-k>', '2<C-w>-', { desc = 'Shrink window height' })
