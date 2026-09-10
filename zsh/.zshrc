@@ -78,6 +78,18 @@ function copydir {
   pwd | tr -d "\r\n" | pbcopy
 }
 
+# zip-src [output-path.zip] — zip a git repo's tracked + untracked (non-ignored) files
+# defaults to <repo-name>.zip in the current directory if no path is given
+function zip-src {
+	local repo_root
+	repo_root="$(git rev-parse --show-toplevel)" || return 1
+	local out=${1:-"$(basename "$repo_root").zip"}
+	[[ $out = /* ]] || out="$PWD/$out"  # resolve relative paths against invocation cwd, not repo_root
+	rm -f "$out"
+	(cd "$repo_root" && git ls-files -co --exclude-standard | zip -q "$out" -@)
+	echo "wrote $out"
+}
+
 # y — launch Yazi and cd into the directory on exit
 function y() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
@@ -85,23 +97,6 @@ function y() {
 	IFS= read -r -d '' cwd < "$tmp"
 	[ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
 	rm -f -- "$tmp"
-}
-
-# nvim — launch Neovim and sync shell cwd to Neovim's final cwd on exit
-function nvim() {
-  local tmp cwd exit_code
-  tmp="$(mktemp -t "nvim-cwd.XXXXXX")" || return 1
-
-  NVIM_CWD_FILE="$tmp" command nvim "$@"
-  exit_code=$?
-
-  if [[ -r "$tmp" ]]; then
-    cwd="$(<"$tmp")"
-    if [[ -n "$cwd" && "$cwd" != "$PWD" && -d "$cwd" ]]; then builtin cd -- "$cwd"; fi
-  fi
-
-  rm -f -- "$tmp"
-  return "$exit_code"
 }
 
 # Shell integrations
