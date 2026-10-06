@@ -21,6 +21,7 @@ return {
       javascript = { 'prettierd' },
       typescript = { 'prettierd' },
       cmake = { 'cmake_format' },
+      typst = { 'typstyle' },
     },
   },
 }
