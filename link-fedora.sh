@@ -70,4 +70,8 @@ link "tmux/tmux.conf" "$HOME/.tmux.conf"
 # git
 link "git/gitconfig" "$HOME/.gitconfig"
 
+# claude code
+link "claude/settings.json"          "$HOME/.claude/settings.json"
+link "claude/statusline-command.sh" "$HOME/.claude/statusline-command.sh"
+
 echo "Done. Restart your shell or run: exec zsh"
