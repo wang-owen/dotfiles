@@ -1,6 +1,5 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
-vim.g.have_nerd_font = true
 
 require 'options'
 require 'keymaps'
@@ -15,10 +14,7 @@ if not vim.uv.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require('lazy').setup({
-  { import = 'plugins' },
-  { import = 'plugins.colorschemes' },
-}, {
+require('lazy').setup('plugins', {
   rocks = { enabled = false },
 })
 

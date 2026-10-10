@@ -1,13 +1,12 @@
 [user]
-	name = Owen Wang
-	email = owenwang0099@gmail.com
+    name = Owen Wang
+    email = owenwang0099@gmail.com
 
 [core]
-	excludesfile = /Users/owenwang/.gitignore
-	pager = delta
+    pager = delta
 
 [push]
-	autoSetupRemote = true
+    autoSetupRemote = true
 
 [interactive]
     diffFilter = delta --color-only
@@ -19,4 +18,4 @@
 [merge]
     conflictStyle = zdiff3
 [init]
-	defaultBranch = main
+    defaultBranch = main

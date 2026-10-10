@@ -5,5 +5,4 @@ return {
   opts = {
     keymap = { preset = 'super-tab' },
   },
-  opts_extend = { 'sources.default' },
 }

@@ -1,5 +1,5 @@
 return {
   'chomosuke/typst-preview.nvim',
-  lazy = false,
+  ft = 'typst',
   opts = {},
 }

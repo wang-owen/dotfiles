@@ -1,7 +1,4 @@
-vim.keymap.set('n', '<leader>w', function()
-  require('conform').format { lsp_format = 'fallback' }
-  vim.cmd.write()
-end, { desc = 'Format and save file' })
+vim.keymap.set('n', '<leader>w', '<cmd>write<cr>', { desc = 'Save file (formats on save)' })
 
 vim.keymap.set('i', '<A-BS>', '<C-w>', { desc = 'Delete word before cursor' })
 vim.keymap.set('i', '<A-Del>', '<C-o>dw', { desc = 'Delete word after cursor' })

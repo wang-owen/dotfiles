@@ -21,10 +21,42 @@ return {
     { '<leader>s.', function() Snacks.picker.recent() end, desc = '[S]earch Recent' },
     { '<leader>sz', function() Snacks.picker.zoxide() end, desc = '[S]earch [Z]oxide' },
     { '<leader>/', function() Snacks.picker.lines() end, desc = '[/] Fuzzily search in current buffer' },
+
+    -- Diagnostics
+    { '<leader>xx', function() Snacks.picker.diagnostics() end, desc = 'Diagnostics' },
+    { '<leader>xX', function() Snacks.picker.diagnostics_buffer() end, desc = 'Buffer Diagnostics' },
+
+    { '<leader>z', function() Snacks.zen() end, desc = 'Toggle Zen Mode' },
   },
   opts = {
+    dashboard = {
+      preset = {
+        header = table.concat({
+          [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⠼⠟⠛⠛⠣⠤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀]],
+          [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⣀⢠⡿⠋⠃⠀⠀⠀⠀⠀⠀⠘⠟⢄⡀⠀⠀⠀⠀⠀⠀⠀]],
+          [[⠀⠀⠀⠀⠀⠀⠀⢀⡼⡟⣯⡿⠛⠛⠿⠕⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠺⣃⠀⠀⠀⠀⠀⠀⠀]],
+          [[⠀⠀⠀⠀⣀⠰⠟⠛⠻⠿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡿⠶⠶⢆⣀⠀⠀⠀]],
+          [[⠀⠀⣠⡾⠉⠀⠀⠀⠀⠀⠑⠃⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠀⠀⠈⢻⡷⣀⠀]],
+          [[⢀⣼⠇⡁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⠳⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⡆]],
+          [[⢸⡇⠀⠈⢀⠀⠀⠀⠀⠀⠀⠀⡆⢀⠀⠀⠀⠀⠀⠜⠀⠀⠀⠀⠀⠀⠀⠴⡀⠀⠀⠰⠀⢸⡇]],
+          [[⠀⢱⣆⠀⠈⠓⠒⠒⠚⢅⣶⡊⠀⠈⠸⡉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⠆⠈⠀⠀⠀⣾⠁]],
+          [[⠀⠀⠛⢗⣐⣠⣤⣐⣾⣿⣿⣷⣀⡄⢀⡠⢡⣶⣶⣶⡀⠀⠀⠀⠀⠀⡰⢧⣀⣼⣶⣾⠟⠀⠀]],
+          [[⠀⠀⠀⠀⠀⠀⠀⠉⢿⡼⠿⢿⣿⡿⠋⠉⠉⠉⠸⣿⠯⣿⣶⣶⣶⣿⡿⠏⠉⠉⠁⠀⠀⠀⠀]],
+          [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠋⠉⠀⠀⠀⠀⠀⠀⠀⠋⠻⠿⠿⠏⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀]],
+        }, '\n'),
+        keys = {
+          { icon = '\u{f002} ', key = 'b', desc = 'Browse Files', action = ':Yazi' },
+          { icon = '\u{f0968} ', key = 'd', desc = 'Browse Directories', action = function() Snacks.picker.zoxide() end },
+          { icon = '\u{f0c7c} ', key = 'f', desc = 'Find File', action = function() Snacks.picker.files() end },
+          { icon = '\u{f017} ', key = 'r', desc = 'Recent', action = function() Snacks.picker.recent() end },
+        },
+      },
+      sections = { { section = 'header' }, { section = 'keys', gap = 1 } },
+    },
+    indent = { animate = { enabled = false } },
+    scroll = {},
+    zen = {},
     notifier = { timeout = 5000, style = 'fancy' },
-    select = {},
     terminal = {
       win = {
         position = 'float',
