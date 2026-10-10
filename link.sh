@@ -21,6 +21,7 @@ link "lazygit"    "$HOME/.config/lazygit"
 
 # zsh (files go directly in ~)
 link "zsh/.zshrc"           "$HOME/.zshrc"
+link "zsh/.zprofile"        "$HOME/.zprofile"
 link "zsh/.p10k.zsh"        "$HOME/.p10k.zsh"
 link "zsh/.zsh_plugins.txt" "$HOME/.zsh_plugins.txt"
 
@@ -29,9 +30,17 @@ link "tmux/tmux.conf" "$HOME/.tmux.conf"
 
 # git
 link "git/gitconfig" "$HOME/.gitconfig"
+link "git/ignore"    "$HOME/.config/git/ignore"
 
 # claude code
-link "claude/settings.json"          "$HOME/.claude/settings.json"
+link "claude/settings.json"         "$HOME/.claude/settings.json"
 link "claude/statusline-command.sh" "$HOME/.claude/statusline-command.sh"
 
-echo "Done."
+if [[ "$(uname)" == "Darwin" ]]; then
+  link "aerospace"          "$HOME/.config/aerospace"
+  link "clangd/config.yaml" "$HOME/Library/Preferences/clangd/config.yaml"
+else
+  link "clangd/config.yaml" "$HOME/.config/clangd/config.yaml"
+fi
+
+echo "Done. Restart your shell or run: exec zsh"

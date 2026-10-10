@@ -1,8 +1,6 @@
-# Homebrew installs to /opt/homebrew on Apple Silicon; must precede any brew-managed tools
-export PATH="/opt/homebrew/bin:$PATH"
-
-# fastfetch displays system info on shell startup; must run before p10k instant prompt
-fastfetch
+# fastfetch displays system info on shell startup; must run before p10k instant prompt.
+# Skipped inside tmux panes and Neovim terminals.
+[[ -z $TMUX && -z $NVIM ]] && fastfetch
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -11,48 +9,37 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# To customize prompt, run `p10k configure` or edit ~/dotfiles/zsh/.p10k.zsh.
-[[ ! -f ~/dotfiles/zsh/.p10k.zsh ]] || source ~/dotfiles/zsh/.p10k.zsh
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # Environment variables
 export EDITOR=nvim
 export EZA_ICONS_AUTO=1  # Show icons in eza output
+typeset -U path; path=(~/.local/bin $path)  # User-installed tools
 
-# Source antidote plugin manager
-source $(brew --prefix)/opt/antidote/share/antidote/antidote.zsh
+# Source antidote plugin manager (Homebrew on macOS, git clone to ~/.antidote on Linux)
+if [[ $OSTYPE == darwin* ]]; then
+  source ${HOMEBREW_PREFIX:-/opt/homebrew}/opt/antidote/share/antidote/antidote.zsh
+else
+  source ~/.antidote/antidote.zsh
+fi
 
 # Auto-update plugins weekly (interval in seconds; 604800 = 7 days)
 zstyle ':antidote:bundle' use-cache true
 zstyle ':antidote:plugin:*' update-interval 604800
 
-# Initialize plugins statically with ${ZDOTDIR:-~}/.zsh_plugins.txt
+# Initialize plugins statically with ~/.zsh_plugins.txt. The OMZ lib it loads also
+# sets up history sharing, menu completion, and up/down prefix history search.
 antidote load
 unsetopt AUTO_CD  # OMZ lib enables this; conflicts with zoxide's fuzzy cd
 
-# History
-HISTSIZE=5000
+# History (explicit HISTFILE: macOS /etc/zshrc defaults it to $ZDOTDIR)
 HISTFILE=~/.zsh_history
+HISTSIZE=5000
 SAVEHIST=$HISTSIZE
-HISTDUP=erase
-setopt appendhistory        # Append to history file instead of overwriting
-setopt sharehistory         # Share history across all sessions
-setopt hist_ignore_space    # Don't save commands prefixed with a space
 setopt hist_ignore_all_dups
-setopt hist_save_no_dups
-setopt hist_find_no_dups
 
-# History substring search — use up/down arrows to search history by prefix
-autoload -U up-line-or-beginning-search
-autoload -U down-line-or-beginning-search
-zle -N up-line-or-beginning-search
-zle -N down-line-or-beginning-search
-bindkey "$terminfo[kcuu1]" up-line-or-beginning-search   # Up arrow binding
-bindkey "$terminfo[kcud1]" down-line-or-beginning-search # Down arrow binding
-
-# Completion
-autoload -U compinit
-zstyle ':completion:*' menu select
-zmodload zsh/complist
+# Completion (compinit is deferred by use-omz; calling it here runs it now)
 compinit
 _comp_options+=(globdots)  # Include hidden files
 
@@ -72,34 +59,29 @@ diff() { command diff -u "$@" | delta; return $pipestatus[1]; }
 export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --follow --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND='fd --type d --strip-cwd-prefix --hidden --exclude .git'
-export FZF_DEFAULT_OPTS="--style full --preview 'if [ -d {} ]; then tree -C {}; else bat --color=always {}; fi' $FZF_DEFAULT_OPTS"
+export FZF_DEFAULT_OPTS="--style full --preview 'if [ -d {} ]; then eza --tree --color=always {}; else bat --color=always {}; fi' $FZF_DEFAULT_OPTS"
 
 # Functions
-
-# copydir — copy the current working directory path to clipboard
-function copydir {
-  pwd | tr -d "\r\n" | pbcopy
-}
 
 # zip-src [output-path.zip] — zip a git repo's tracked + untracked (non-ignored) files
 # defaults to <repo-name>.zip in the current directory if no path is given
 function zip-src {
-	local repo_root
-	repo_root="$(git rev-parse --show-toplevel)" || return 1
-	local out=${1:-"$(basename "$repo_root").zip"}
-	[[ $out = /* ]] || out="$PWD/$out"  # resolve relative paths against invocation cwd, not repo_root
-	rm -f "$out"
-	(cd "$repo_root" && git ls-files -co --exclude-standard | zip -q "$out" -@)
-	echo "wrote $out"
+    local repo_root
+    repo_root="$(git rev-parse --show-toplevel)" || return 1
+    local out=${1:-"$(basename "$repo_root").zip"}
+    [[ $out = /* ]] || out="$PWD/$out"  # resolve relative paths against invocation cwd, not repo_root
+    rm -f "$out"
+    (cd "$repo_root" && git ls-files -co --exclude-standard | zip -q "$out" -@)
+    echo "wrote $out"
 }
 
 # y — launch Yazi and cd into the directory on exit
 function y() {
-	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-	command yazi "$@" --cwd-file="$tmp"
-	IFS= read -r -d '' cwd < "$tmp"
-	[ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
-	rm -f -- "$tmp"
+    local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+    command yazi "$@" --cwd-file="$tmp"
+    IFS= read -r -d '' cwd < "$tmp"
+    [ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
+    rm -f -- "$tmp"
 }
 
 # Shell integrations

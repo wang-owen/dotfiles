@@ -4,8 +4,6 @@ set -e
 
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# ---Packages---
-
 APT_PACKAGES=(
   zsh
   neovim
@@ -96,7 +94,7 @@ else
 fi
 
 # antidote is not in any apt repo — install via git clone
-ANTIDOTE_DIR="${ZDOTDIR:-$HOME}/.antidote"
+ANTIDOTE_DIR="$HOME/.antidote"
 if [[ ! -d "$ANTIDOTE_DIR" ]]; then
   echo "Cloning antidote..."
   git clone --depth=1 https://github.com/mattmc3/antidote.git "$ANTIDOTE_DIR"
@@ -104,36 +102,4 @@ else
   echo "antidote already installed at $ANTIDOTE_DIR"
 fi
 
-# ---Linking---
-
-link() {
-  local src="$DOTFILES/$1"
-  local dst="$2"
-  mkdir -p "$(dirname "$dst")"
-  ln -sfn "$src" "$dst"
-  echo "Linked $dst -> $src"
-}
-
-# Whole folders
-link "fastfetch"  "$HOME/.config/fastfetch"
-link "nvim"       "$HOME/.config/nvim"
-link "yazi"       "$HOME/.config/yazi"
-link "ghostty"    "$HOME/.config/ghostty"
-link "lazygit"    "$HOME/.config/lazygit"
-
-# zsh (files go directly in ~)
-link "zsh/.zshrc.linux"     "$HOME/.zshrc"
-link "zsh/.p10k.zsh"        "$HOME/.p10k.zsh"
-link "zsh/.zsh_plugins.txt" "$HOME/.zsh_plugins.txt"
-
-# tmux
-link "tmux/tmux.conf" "$HOME/.tmux.conf"
-
-# git
-link "git/gitconfig" "$HOME/.gitconfig"
-
-# claude code
-link "claude/settings.json"          "$HOME/.claude/settings.json"
-link "claude/statusline-command.sh" "$HOME/.claude/statusline-command.sh"
-
-echo "Done. Restart your shell or run: exec zsh"
+bash "$DOTFILES/link.sh"

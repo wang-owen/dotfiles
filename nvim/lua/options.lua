@@ -1,8 +1,3 @@
--- Ensure Homebrew Python is found before system Python by Mason
-if vim.fn.isdirectory '/opt/homebrew/bin' == 1 then vim.env.PATH = '/opt/homebrew/bin:' .. vim.env.PATH end
-
-vim.opt.termguicolors = true -- Enable 24-bit RGB color
-
 vim.opt.tabstop = 2 -- Number of spaces that a <Tab> in the file counts for
 vim.opt.shiftwidth = 2 -- Number of spaces to use for each step of (auto)indent
 vim.opt.expandtab = true -- Convert tabs to spaces
@@ -13,6 +8,7 @@ vim.opt.mouse = 'a' -- Enable mouse support in all modes
 vim.opt.showmode = false -- Hide mode indicator (e.g. -- INSERT --), shown in statusline instead
 
 vim.opt.clipboard = 'unnamedplus' -- Sync with system clipboard
+
 -- In an OrbStack Linux machine, route the clipboard through macOS
 if vim.fn.has 'linux' == 1 and vim.fn.executable 'mac' == 1 then
   vim.g.clipboard = {
@@ -22,6 +18,7 @@ if vim.fn.has 'linux' == 1 and vim.fn.executable 'mac' == 1 then
     cache_enabled = 0,
   }
 end
+
 vim.opt.cmdheight = 0 -- Hide cmdline when not in use
 
 vim.opt.breakindent = true -- Wrapped lines continue visually indented

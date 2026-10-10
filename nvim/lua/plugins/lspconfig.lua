@@ -9,12 +9,10 @@ return {
   },
   config = function()
     vim.diagnostic.config {
-      update_in_insert = false,
       severity_sort = true,
       float = { border = 'rounded', source = 'if_many' },
       underline = { severity = vim.diagnostic.severity.ERROR },
       virtual_text = true,
-      virtual_lines = false,
       jump = { float = true },
     }
 
@@ -65,6 +63,7 @@ return {
     local servers = {
       clangd = {},
       pyright = {},
+      tinymist = {},
       rust_analyzer = {},
       ts_ls = {},
       lua_ls = {
@@ -96,12 +95,14 @@ return {
         'black',
         'clangd',
         'clang-format',
+        'cmakelang',
         'lua-language-server',
         'prettierd',
         'pyright',
-        'rust-analyzer',
         'stylua',
+        'tinymist',
         'typescript-language-server',
+        'typstyle',
       },
     }
 
