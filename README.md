@@ -25,7 +25,7 @@ Personal configuration files for macOS (and Linux via `install-fedora.sh` / `ins
 Install [Homebrew](https://brew.sh), then install the required tools:
 
 ```sh
-brew install zsh antidote fastfetch fzf zoxide yazi bat eza ripgrep fd btop git git-delta neovim tmux lazygit tex-fmt
+brew install zsh antidote fastfetch fzf zoxide yazi bat eza ripgrep fd btop git git-delta neovim tmux lazygit tex-fmt chafa
 brew install --cask ghostty nikitabobko/tap/aerospace
 ```
 

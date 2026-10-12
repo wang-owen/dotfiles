@@ -17,6 +17,7 @@ DNF_PACKAGES=(
   fzf
   zoxide
   btop
+  chafa
   git-delta
   lazygit
   yazi

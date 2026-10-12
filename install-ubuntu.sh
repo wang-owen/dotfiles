@@ -14,6 +14,7 @@ APT_PACKAGES=(
   fd-find
   fzf
   btop
+  chafa
 )
 
 echo "Updating package index..."
