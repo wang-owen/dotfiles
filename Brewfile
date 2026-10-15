@@ -1,0 +1,25 @@
+tap "nikitabobko/tap"
+
+brew "zsh"
+brew "antidote"
+brew "fastfetch"
+brew "fzf"
+brew "zoxide"
+brew "yazi"
+brew "bat"
+brew "eza"
+brew "ripgrep"
+brew "fd"
+brew "btop"
+brew "git"
+brew "git-delta"
+brew "neovim"
+brew "tmux"
+brew "lazygit"
+brew "tex-fmt"
+brew "chafa"
+brew "pypy3.11"  # contest Python, as on the judge
+
+cask "ghostty"
+cask "aerospace"
+cask "skim"  # LaTeX PDF preview

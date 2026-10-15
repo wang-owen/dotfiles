@@ -2,6 +2,12 @@
 
 set -e
 
+# Under sudo, $HOME is /root and everything lands in root's home
+if [[ $EUID -eq 0 ]]; then
+  echo "Run as your normal user, not root/sudo." >&2
+  exit 1
+fi
+
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 DNF_PACKAGES=(
@@ -41,6 +47,11 @@ if [[ ! -d "$ANTIDOTE_DIR" ]]; then
   git clone --depth=1 https://github.com/mattmc3/antidote.git "$ANTIDOTE_DIR"
 else
   echo "antidote already installed at $ANTIDOTE_DIR"
+fi
+
+if [[ "$(basename "$SHELL")" != "zsh" ]]; then
+  echo "Setting zsh as the login shell..."
+  chsh -s "$(command -v zsh)"
 fi
 
 bash "$DOTFILES/link.sh"

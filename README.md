@@ -1,6 +1,6 @@
 # Dotfiles
 
-Personal configuration files for macOS (and Linux via `install-fedora.sh` / `install-ubuntu.sh`).
+Personal configuration files for macOS and Linux.
 
 ## What's included
 
@@ -12,6 +12,7 @@ Personal configuration files for macOS (and Linux via `install-fedora.sh` / `ins
 | `ghostty/` | Ghostty terminal |
 | `yazi/` | Yazi file manager |
 | `fastfetch/` | Fastfetch system info |
+| `btop/` | btop system monitor |
 | `git/` | Git (`.gitconfig`, global ignore) |
 | `lazygit/` | lazygit |
 | `clangd/` | clangd (LSP config) |
@@ -21,35 +22,27 @@ Personal configuration files for macOS (and Linux via `install-fedora.sh` / `ins
 
 ## Setup
 
-### 1. Install dependencies
-
-Install [Homebrew](https://brew.sh), then install the required tools:
-
-```sh
-brew install zsh antidote fastfetch fzf zoxide yazi bat eza ripgrep fd btop git git-delta neovim tmux lazygit tex-fmt chafa pypy3.11
-brew install --cask ghostty nikitabobko/tap/aerospace
-```
-
-For LaTeX, install a TeX distribution (provides `latexmk`) and [Skim](https://skim-app.sourceforge.io) for PDF preview.
-
-For competitive programming, install the [Competitive Companion](https://github.com/jmerle/competitive-companion) browser extension. The C++ compiler comes from the Xcode Command Line Tools on macOS and from the install script on Linux.
-
-For the Zsh prompt, install the [MesloLGS NF](https://github.com/romkatv/powerlevel10k#fonts) font and set it in your terminal.
-
-### 2. Clone the repo
+### 1. Clone the repo
 
 ```sh
 git clone https://github.com/wang-owen/dotfiles.git ~/dotfiles
 ```
 
-### 3. Symlink configs
+On macOS, the first `git` call prompts to install the Xcode Command Line Tools.
+
+### 2. Run the install script
 
 ```sh
-cd ~/dotfiles
-bash link.sh
+bash ~/dotfiles/install-macos.sh   # or install-fedora.sh / install-ubuntu.sh
 ```
 
-This creates symlinks from the standard config locations to the files in this repo. Existing files at those paths will be overwritten. On Linux, run `bash install-fedora.sh` or `bash install-ubuntu.sh` instead; they install packages and then run `link.sh`.
+Each script installs packages (macOS: Homebrew and the `Brewfile`), sets zsh as the login shell on Linux, and runs `link.sh` to symlink configs into place, overwriting existing files. To only relink, run `bash ~/dotfiles/link.sh`.
+
+### 3. Manual steps
+
+- Install the [MesloLGS NF](https://github.com/romkatv/powerlevel10k#fonts) font and set it in your terminal.
+- For LaTeX, install a TeX distribution (provides `latexmk`).
+- For competitive programming, install the [Competitive Companion](https://github.com/jmerle/competitive-companion) browser extension.
 
 ### 4. Reload Zsh
 
@@ -63,4 +56,4 @@ Antidote will install plugins on first launch based on `.zsh_plugins.txt`.
 
 - Neovim plugins are managed by [lazy.nvim](https://github.com/folke/lazy.nvim) and will be installed automatically on first launch.
 - Language servers and formatters are installed automatically by Mason on first launch, except `rustfmt` and `rust-analyzer`, which come from `rustup`.
-- Contest setup: in Neovim, `<leader>cc` / `<leader>cp` receive a contest or problem (capital `C` / `P` for Python) from Competitive Companion into `~/Developer/cp` and `<leader>cr` builds with sanitizers and runs the samples.
+- Competitive programming: in Neovim, `<leader>c` (see which-key) receives contests/problems from Competitive Companion into `~/Developer/cp` and builds/runs samples.

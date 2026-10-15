@@ -2,6 +2,12 @@
 
 set -e
 
+# Under sudo, $HOME is /root and everything lands in root's home
+if [[ $EUID -eq 0 ]]; then
+  echo "Run as your normal user, not root/sudo." >&2
+  exit 1
+fi
+
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 link() {
