@@ -15,6 +15,7 @@ Personal configuration files for macOS (and Linux via `install-fedora.sh` / `ins
 | `git/` | Git (`.gitconfig`, global ignore) |
 | `lazygit/` | lazygit |
 | `clangd/` | clangd (LSP config) |
+| `cp/` | Competitive programming templates |
 | `aerospace/` | AeroSpace window manager (macOS) |
 | `claude/` | Claude Code settings and status line |
 
@@ -25,11 +26,13 @@ Personal configuration files for macOS (and Linux via `install-fedora.sh` / `ins
 Install [Homebrew](https://brew.sh), then install the required tools:
 
 ```sh
-brew install zsh antidote fastfetch fzf zoxide yazi bat eza ripgrep fd btop git git-delta neovim tmux lazygit tex-fmt chafa
+brew install zsh antidote fastfetch fzf zoxide yazi bat eza ripgrep fd btop git git-delta neovim tmux lazygit tex-fmt chafa pypy3.11
 brew install --cask ghostty nikitabobko/tap/aerospace
 ```
 
 For LaTeX, install a TeX distribution (provides `latexmk`) and [Skim](https://skim-app.sourceforge.io) for PDF preview.
+
+For competitive programming, install the [Competitive Companion](https://github.com/jmerle/competitive-companion) browser extension. The C++ compiler comes from the Xcode Command Line Tools on macOS and from the install script on Linux.
 
 For the Zsh prompt, install the [MesloLGS NF](https://github.com/romkatv/powerlevel10k#fonts) font and set it in your terminal.
 
@@ -60,3 +63,4 @@ Antidote will install plugins on first launch based on `.zsh_plugins.txt`.
 
 - Neovim plugins are managed by [lazy.nvim](https://github.com/folke/lazy.nvim) and will be installed automatically on first launch.
 - Language servers and formatters are installed automatically by Mason on first launch, except `rustfmt` and `rust-analyzer`, which come from `rustup`.
+- Contest setup: in Neovim, `<leader>cc` / `<leader>cp` receive a contest or problem (capital `C` / `P` for Python) from Competitive Companion into `~/Developer/cp` and `<leader>cr` builds with sanitizers and runs the samples.

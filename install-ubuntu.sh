@@ -15,6 +15,8 @@ APT_PACKAGES=(
   fzf
   btop
   chafa
+  g++  # contest builds
+  pypy3  # contest Python, as on the judge
 )
 
 echo "Updating package index..."

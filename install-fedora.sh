@@ -22,6 +22,8 @@ DNF_PACKAGES=(
   lazygit
   yazi
   wl-clipboard  # provides wl-copy for Wayland clipboard
+  gcc-c++ libasan libubsan  # contest builds; Fedora ships the sanitizer runtimes separately
+  pypy3  # contest Python, as on the judge
 )
 
 # Enable COPR repos for packages not in the default Fedora repos

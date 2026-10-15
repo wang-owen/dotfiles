@@ -37,6 +37,11 @@ link "git/ignore"    "$HOME/.config/git/ignore"
 link "claude/settings.json"         "$HOME/.claude/settings.json"
 link "claude/statusline-command.sh" "$HOME/.claude/statusline-command.sh"
 
+# competitive programming templates (used by nvim/lua/plugins/competitest.lua)
+for f in template.cc template.py dbg.h compile_flags.txt; do
+  link "cp/$f" "$HOME/Developer/cp/$f"
+done
+
 if [[ "$(uname)" == "Darwin" ]]; then
   link "aerospace"          "$HOME/.config/aerospace"
   link "clangd/config.yaml" "$HOME/Library/Preferences/clangd/config.yaml"
