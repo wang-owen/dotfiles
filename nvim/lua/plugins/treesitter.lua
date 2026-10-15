@@ -17,7 +17,10 @@ return {
       pattern = filetypes,
       callback = function()
         pcall(vim.treesitter.start)
-        pcall(function() vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()" end)
+        -- Treesitter's C/C++ indent queries mis-indent after multi-line expressions; use cindent instead
+        if vim.bo.filetype ~= 'c' and vim.bo.filetype ~= 'cpp' then
+          pcall(function() vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()" end)
+        end
       end,
     })
   end,
