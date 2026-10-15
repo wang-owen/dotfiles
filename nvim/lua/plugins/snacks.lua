@@ -80,6 +80,11 @@ return {
         position = 'float',
         height = 0.8,
         width = 0.8,
+        border = 'rounded',
+        title = ' \u{f489} Terminal ',
+        title_pos = 'center',
+        backdrop = { blend = 40 },
+        wo = { winblend = 5 },
       },
     },
     picker = {
