@@ -1,13 +1,13 @@
-vim.opt.tabstop = 2 -- Number of spaces that a <Tab> in the file counts for
-vim.opt.shiftwidth = 2 -- Number of spaces to use for each step of (auto)indent
-vim.opt.expandtab = true -- Convert tabs to spaces
-vim.opt.softtabstop = 2 -- Number of spaces that a <Tab> counts for while performing editing operations
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.expandtab = true
+vim.opt.softtabstop = 2
 
-vim.opt.number = true -- Show line numbers
-vim.opt.mouse = 'a' -- Enable mouse support in all modes
-vim.opt.showmode = false -- Hide mode indicator (e.g. -- INSERT --), shown in statusline instead
+vim.opt.number = true
+vim.opt.mouse = 'a'
+vim.opt.showmode = false
 
-vim.opt.clipboard = 'unnamedplus' -- Sync with system clipboard
+vim.opt.clipboard = 'unnamedplus'
 
 -- In an OrbStack Linux machine, route the clipboard through macOS
 if vim.fn.has 'linux' == 1 and vim.fn.executable 'mac' == 1 then
@@ -19,25 +19,25 @@ if vim.fn.has 'linux' == 1 and vim.fn.executable 'mac' == 1 then
   }
 end
 
-vim.opt.cmdheight = 0 -- Hide cmdline when not in use
+vim.opt.cmdheight = 0
 
-vim.opt.breakindent = true -- Wrapped lines continue visually indented
-vim.opt.undofile = true -- Persist undo history across sessions
+vim.opt.breakindent = true
+vim.opt.undofile = true
 
-vim.opt.ignorecase = true -- Case-insensitive search by default
-vim.opt.smartcase = true -- Override ignorecase when search includes uppercase
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
 
-vim.opt.signcolumn = 'yes' -- Always show sign column to avoid layout shifts
-vim.opt.updatetime = 250 -- Faster CursorHold events (ms)
-vim.opt.timeoutlen = 300 -- Shorter key sequence timeout (ms)
+vim.opt.signcolumn = 'yes'
+vim.opt.updatetime = 250
+vim.opt.timeoutlen = 300
 
-vim.opt.splitright = true -- Vertical splits open to the right
-vim.opt.splitbelow = true -- Horizontal splits open below
+vim.opt.splitright = true
+vim.opt.splitbelow = true
 
-vim.opt.list = true -- Show invisible characters
-vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' } -- Symbols for tab, trailing space, non-breaking space
+vim.opt.list = true
+vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
-vim.opt.inccommand = 'split' -- Preview substitutions live in a split
-vim.opt.cursorline = true -- Highlight the current line
-vim.opt.scrolloff = 10 -- Keep 10 lines visible above/below cursor
-vim.opt.confirm = true -- Ask to save instead of erroring on unsaved changes
+vim.opt.inccommand = 'split'
+vim.opt.cursorline = true
+vim.opt.scrolloff = 10
+vim.opt.confirm = true

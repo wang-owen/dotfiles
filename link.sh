@@ -2,7 +2,6 @@
 
 set -e
 
-# Under sudo, $HOME is /root and everything lands in root's home
 if [[ $EUID -eq 0 ]]; then
   echo "Run as your normal user, not root/sudo." >&2
   exit 1
@@ -26,7 +25,7 @@ link "ghostty"    "$HOME/.config/ghostty"
 link "lazygit"    "$HOME/.config/lazygit"
 link "btop"       "$HOME/.config/btop"
 
-# zsh (files go directly in ~)
+# zsh
 link "zsh/.zshrc"           "$HOME/.zshrc"
 link "zsh/.zprofile"        "$HOME/.zprofile"
 link "zsh/.p10k.zsh"        "$HOME/.p10k.zsh"
@@ -43,7 +42,7 @@ link "git/ignore"    "$HOME/.config/git/ignore"
 link "claude/settings.json"         "$HOME/.claude/settings.json"
 link "claude/statusline-command.sh" "$HOME/.claude/statusline-command.sh"
 
-# competitive programming templates (used by nvim/lua/plugins/competitest.lua)
+# competitive programming
 for f in template.cc template.py dbg.h compile_flags.txt; do
   link "cp/$f" "$HOME/Developer/cp/$f"
 done

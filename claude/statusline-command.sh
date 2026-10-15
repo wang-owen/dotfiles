@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# Claude Code status line: model name, current directory, git branch, context remaining.
 
 input=$(cat)
 
@@ -18,11 +17,11 @@ fi
 
 remaining=$(echo "$input" | jq -r '.context_window.remaining_percentage // empty')
 
-# Dimmed ANSI colors (suited for terminals using this status line's own dim palette)
-COLOR_MODEL=$'\033[2;36m'   # dim cyan
-COLOR_DIR=$'\033[2;34m'     # dim blue
-COLOR_GIT=$'\033[2;32m'     # dim green
-COLOR_CTX=$'\033[2;33m'     # dim yellow
+# Colors
+COLOR_MODEL=$'\033[2;36m'
+COLOR_DIR=$'\033[2;34m'
+COLOR_GIT=$'\033[2;32m'
+COLOR_CTX=$'\033[2;33m'
 RESET=$'\033[0m'
 
 out="${COLOR_MODEL}${model}${RESET}"

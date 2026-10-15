@@ -1,10 +1,6 @@
--- Contest workflow. The Competitive Companion browser extension sends a problem's
--- samples to Neovim; CompetiTest creates the source file from the template and
--- runs it against them.
-
 local root = vim.fn.expand '~/Developer/cp'
 
--- Debug build: sanitizers, checked STL, and dbg() from root/dbg.h switched on
+-- Debug build: sanitizers, checked STL, dbg()
 local cxx_flags = vim.split(
   '-std=gnu++23 -Wall -Wextra -Wshadow -g -Og -DLOCAL'
     .. ' -D_GLIBCXX_DEBUG -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_DEBUG'
@@ -15,8 +11,8 @@ table.insert(cxx_flags, '-I' .. root)
 -- macOS gives the main thread 8 MB of stack; judges allow far more for deep recursion
 if vim.fn.has 'mac' == 1 then table.insert(cxx_flags, '-Wl,-stack_size,0x10000000') end
 
--- Where a received problem goes under root: its directory and its file name without extension.
---   Codeforces  codeforces/2200, cf2200A   (2200 is the contest id in the URL, not the round number)
+-- Received problem -> directory, file name
+--   Codeforces  codeforces/2200, cf2200A   (2200 is the contest id, not the round)
 --   AtCoder     atcoder/abc430, abc430_a
 --   elsewhere   <group>, <problem>, all in lower-case-with-dashes
 local function locate(task)
@@ -35,8 +31,7 @@ local function locate(task)
   return root .. '/' .. slug(task.group), slug(task.name)
 end
 
--- Wait for a problem or contest from the browser and create its files in the given language.
--- `CompetiTest receive` takes no extension argument, so set it through setup(), which merges.
+-- `CompetiTest receive` takes no extension argument, so set it via setup()
 local function receive(what, ext)
   return function()
     require('competitest').setup { received_files_extension = ext }
@@ -64,7 +59,7 @@ return {
     run_command = {
       -- MallocNanoZone=0 stops macOS malloc warning on every sanitizer run
       cpp = { exec = 'env', args = { 'MallocNanoZone=0', './$(FNOEXT)' } },
-      -- PyPy as on the judge (Homebrew names it pypy3.11); LOCAL switches on dbg() in template.py
+      -- Homebrew names it pypy3.11
       python = { exec = 'env', args = { 'LOCAL=1', vim.fn.has 'mac' == 1 and 'pypy3.11' or 'pypy3', '$(FNAME)' } },
     },
     testcases_directory = 'tests',
@@ -80,7 +75,6 @@ return {
       local _, name = locate(task)
       return name .. '.' .. ext
     end,
-    -- The paths above are decided, so do not stop to ask during a contest
     received_problems_prompt_path = false,
     received_contests_prompt_directory = false,
     received_contests_prompt_extension = false,
