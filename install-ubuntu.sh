@@ -2,7 +2,6 @@
 
 set -e
 
-# Under sudo, $HOME is /root and everything lands in root's home
 if [[ $EUID -eq 0 ]]; then
   echo "Run as your normal user, not root/sudo." >&2
   exit 1
@@ -15,16 +14,17 @@ APT_PACKAGES=(
   neovim
   tmux
   git
-  curl   # downloads below
-  unzip  # yazi release
+  curl
+  unzip
+  fontconfig
   bat
   ripgrep
   fd-find
   fzf
   btop
   chafa
-  g++  # contest builds
-  pypy3  # contest Python, as on the judge
+  g++
+  pypy3
 )
 
 echo "Updating package index..."
@@ -33,7 +33,7 @@ sudo apt update
 echo "Installing packages via apt..."
 sudo apt install -y "${APT_PACKAGES[@]}"
 
-# Ubuntu renames these binaries to avoid conflicts; symlink to canonical names
+# Ubuntu renames bat and fd
 sudo ln -sf /usr/bin/batcat /usr/local/bin/bat
 sudo ln -sf /usr/bin/fdfind /usr/local/bin/fd
 
@@ -102,6 +102,20 @@ if ! command -v yazi &>/dev/null; then
   rm -rf /tmp/yazi.zip /tmp/yazi-bin
 else
   echo "yazi already installed"
+fi
+
+# Iosevka Term is not in the default Ubuntu repos — install via GitHub release
+FONT_DIR="$HOME/.local/share/fonts/iosevka-term"
+if [[ ! -d "$FONT_DIR" ]]; then
+  echo "Installing Iosevka Term..."
+  IOSEVKA_VERSION="34.9.0"
+  curl -fsSL "https://github.com/be5invis/Iosevka/releases/download/v${IOSEVKA_VERSION}/PkgTTC-SGr-IosevkaTerm-${IOSEVKA_VERSION}.zip" -o /tmp/iosevka-term.zip
+  mkdir -p "$FONT_DIR"
+  unzip -o /tmp/iosevka-term.zip -d "$FONT_DIR"
+  rm /tmp/iosevka-term.zip
+  fc-cache -f "$FONT_DIR"
+else
+  echo "Iosevka Term already installed at $FONT_DIR"
 fi
 
 # antidote is not in any apt repo — install via git clone

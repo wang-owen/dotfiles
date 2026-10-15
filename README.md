@@ -33,7 +33,7 @@ On macOS, the first `git` call prompts to install the Xcode Command Line Tools.
 ### 2. Run the install script
 
 ```sh
-bash ~/dotfiles/install-macos.sh   # or install-fedora.sh / install-ubuntu.sh
+bash ~/dotfiles/install-macos.sh   # or install-arch.sh / install-fedora.sh / install-ubuntu.sh
 ```
 
 Each script installs packages (macOS: Homebrew and the `Brewfile`), sets zsh as the login shell on Linux, and runs `link.sh` to symlink configs into place, overwriting existing files. To only relink, run `bash ~/dotfiles/link.sh`.

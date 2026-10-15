@@ -18,8 +18,9 @@ brew "tmux"
 brew "lazygit"
 brew "tex-fmt"
 brew "chafa"
-brew "pypy3.11"  # contest Python, as on the judge
+brew "pypy3.11"
 
 cask "ghostty"
 cask "aerospace"
 cask "skim"  # LaTeX PDF preview
+cask "font-iosevka"
