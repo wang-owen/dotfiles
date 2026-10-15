@@ -18,6 +18,7 @@ link "nvim"       "$HOME/.config/nvim"
 link "yazi"       "$HOME/.config/yazi"
 link "ghostty"    "$HOME/.config/ghostty"
 link "lazygit"    "$HOME/.config/lazygit"
+link "btop"       "$HOME/.config/btop"
 
 # zsh (files go directly in ~)
 link "zsh/.zshrc"           "$HOME/.zshrc"
