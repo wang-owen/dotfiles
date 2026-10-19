@@ -1,3 +1,4 @@
+-xc++
 -std=gnu++23
 -DLOCAL
 -I.
