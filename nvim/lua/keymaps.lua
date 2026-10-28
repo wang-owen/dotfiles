@@ -3,6 +3,8 @@ vim.keymap.set('n', '<leader>w', '<cmd>write<cr>', { desc = 'Save file (formats 
 vim.keymap.set('i', '<A-BS>', '<C-w>', { desc = 'Delete word before cursor' })
 vim.keymap.set('i', '<A-Del>', '<C-o>dw', { desc = 'Delete word after cursor' })
 vim.keymap.set('i', '<S-Tab>', '<C-d>', { desc = 'Un-indent' })
+vim.keymap.set('x', '<Tab>', '>gv', { desc = 'Indent selection' })
+vim.keymap.set('x', '<S-Tab>', '<gv', { desc = 'Un-indent selection' })
 
 -- Copy line down
 vim.keymap.set('n', '<A-S-Down>', ':copy .<CR>', { desc = 'Copy line down' })
