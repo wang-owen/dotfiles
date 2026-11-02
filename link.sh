@@ -33,6 +33,7 @@ link "zsh/.zsh_plugins.txt" "$HOME/.zsh_plugins.txt"
 
 # tmux
 link "tmux/tmux.conf" "$HOME/.tmux.conf"
+link "tmux/sessions.sh" "$HOME/.config/tmux/sessions.sh"
 
 # git
 link "git/gitconfig" "$HOME/.gitconfig"
