@@ -95,7 +95,6 @@ return {
         'black',
         'clangd',
         'clang-format',
-        'cmakelang',
         'lua-language-server',
         'prettierd',
         'pyright',
