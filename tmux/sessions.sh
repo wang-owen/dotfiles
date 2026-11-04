@@ -48,17 +48,19 @@ hints() {
 pick() {
   local browse search session
   browse=$(hints ↵ switch x kill / search q quit)
-  search=$(hints ↵ switch esc back)
+  search=$(hints ↵ switch/new esc back)
   session=$(list | fzf \
     --ansi --style full --no-preview --no-input --reverse --no-sort --track \
     --delimiter '\t' --nth 1 --accept-nth 1 --tabstop $(( $1 + gap )) \
     --info inline-right --info-command 'echo "$FZF_MATCH_COUNT/$FZF_TOTAL_COUNT"' --pointer '▌' --gutter ' ' --color 'pointer:bold,border:bright-black,label:bright-black' \
     --input-label ' search ' --list-label "$browse" --list-label-pos 0:bottom \
-    --bind 'j:down,k:up,q:abort' \
+    --bind 'j:down,k:up,q:abort,enter:accept-or-print-query' \
     --bind "x:reload($self kill {1}; $self list)" \
     --bind "/:show-input+unbind(j,k,q,x,/)+change-list-label($search)" \
     --bind "esc:clear-query+transform:[ \"\$FZF_INPUT_STATE\" = hidden ] && echo abort || echo 'hide-input+rebind(j,k,q,x,/)+change-list-label($browse)'")
-  [ -n "$session" ] && tmux switch-client -t "=$session"
+  [ -n "$session" ] || return
+  tmux has-session -t "=$session" 2>/dev/null || session=$(tmux new-session -dP -F '#{session_name}' -s "$session")
+  tmux switch-client -t "=$session"
 }
 
 case $1 in
