@@ -24,7 +24,6 @@ APT_PACKAGES=(
   btop
   chafa
   g++
-  pypy3
 )
 
 echo "Updating package index..."

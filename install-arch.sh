@@ -28,7 +28,6 @@ PACMAN_PACKAGES=(
   yazi
   wl-clipboard
   gcc
-  pypy3
   ttc-iosevka
 )
 

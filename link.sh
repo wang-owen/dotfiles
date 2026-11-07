@@ -44,7 +44,7 @@ link "claude/settings.json"         "$HOME/.claude/settings.json"
 link "claude/statusline-command.sh" "$HOME/.claude/statusline-command.sh"
 
 # competitive programming
-for f in template.cc template.py dbg.h compile_flags.txt; do
+for f in template.cc dbg.h compile_flags.txt; do
   link "cp/$f" "$HOME/Developer/cp/$f"
 done
 

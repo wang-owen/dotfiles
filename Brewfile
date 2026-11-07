@@ -18,7 +18,6 @@ brew "tmux"
 brew "lazygit"
 brew "tex-fmt"
 brew "chafa"
-brew "pypy3.11"
 brew "tree-sitter-cli"
 
 cask "ghostty"

@@ -31,7 +31,6 @@ DNF_PACKAGES=(
   yazi
   wl-clipboard
   gcc-c++ libasan libubsan
-  pypy3
 )
 
 # Enable COPR repos for packages not in the default Fedora repos

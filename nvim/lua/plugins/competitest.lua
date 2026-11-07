@@ -31,23 +31,13 @@ local function locate(task)
   return root .. '/' .. slug(task.group), slug(task.name)
 end
 
--- `CompetiTest receive` takes no extension argument, so set it via setup()
-local function receive(what, ext)
-  return function()
-    require('competitest').setup { received_files_extension = ext }
-    vim.cmd('CompetiTest receive ' .. what)
-  end
-end
-
 return {
   'xeluxee/competitest.nvim',
   dependencies = { 'MunifTanjim/nui.nvim' },
   cmd = 'CompetiTest',
   keys = {
-    { '<leader>cc', receive('contest', 'cc'), desc = '[C]ontest: receive whole [C]ontest (C++)' },
-    { '<leader>cp', receive('problem', 'cc'), desc = '[C]ontest: receive one [P]roblem (C++)' },
-    { '<leader>cC', receive('contest', 'py'), desc = '[C]ontest: receive whole [C]ontest (Python)' },
-    { '<leader>cP', receive('problem', 'py'), desc = '[C]ontest: receive one [P]roblem (Python)' },
+    { '<leader>cc', '<cmd>CompetiTest receive contest<cr>', desc = '[C]ontest: receive whole [C]ontest' },
+    { '<leader>cp', '<cmd>CompetiTest receive problem<cr>', desc = '[C]ontest: receive one [P]roblem' },
     { '<leader>cr', '<cmd>CompetiTest run<cr>', desc = '[C]ontest: build and [R]un samples' },
     { '<leader>ca', '<cmd>CompetiTest add_testcase<cr>', desc = '[C]ontest: [A]dd testcase' },
     { '<leader>ce', '<cmd>CompetiTest edit_testcase<cr>', desc = '[C]ontest: [E]dit testcase' },
@@ -59,13 +49,12 @@ return {
     run_command = {
       -- MallocNanoZone=0 stops macOS malloc warning on every sanitizer run
       cpp = { exec = 'env', args = { 'MallocNanoZone=0', './$(FNOEXT)' } },
-      -- Homebrew names it pypy3.11
-      python = { exec = 'env', args = { 'LOCAL=1', vim.fn.has 'mac' == 1 and 'pypy3.11' or 'pypy3', '$(FNAME)' } },
     },
     testcases_directory = 'tests',
     view_output_diff = true,
 
-    template_file = { cc = root .. '/template.cc', py = root .. '/template.py' },
+    received_files_extension = 'cc',
+    template_file = { cc = root .. '/template.cc' },
     received_problems_path = function(task, ext)
       local dir, name = locate(task)
       return dir .. '/' .. name .. '.' .. ext
