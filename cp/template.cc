@@ -2,6 +2,7 @@
 using namespace std;
 
 using ll = long long;
+#define int long long
 
 #ifdef LOCAL
 #include "dbg.h"
@@ -11,7 +12,7 @@ using ll = long long;
 
 void solve() {}
 
-int main() {
+signed main() {
   ios::sync_with_stdio(false);
   cin.tie(nullptr);
 
