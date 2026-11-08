@@ -73,7 +73,10 @@ return {
     },
     indent = { animate = { enabled = false } },
     scroll = {},
-    zen = {},
+    zen = {
+      toggles = { dim = false },
+      win = { backdrop = { transparent = false, blend = 50 } },
+    },
     notifier = { timeout = 5000, style = 'fancy' },
     terminal = {
       win = {
