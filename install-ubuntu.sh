@@ -11,7 +11,6 @@ DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 APT_PACKAGES=(
   zsh
-  neovim
   tmux
   git
   curl
@@ -36,11 +35,16 @@ sudo apt install -y "${APT_PACKAGES[@]}"
 sudo ln -sf /usr/bin/batcat /usr/local/bin/bat
 sudo ln -sf /usr/bin/fdfind /usr/local/bin/fd
 
+# CPU arch for GitHub release downloads: amd64 or arm64
+DEB_ARCH="$(dpkg --print-architecture)"
+
 # fastfetch is not in the default Ubuntu repos — install via GitHub release
 if ! command -v fastfetch &>/dev/null; then
   echo "Installing fastfetch..."
   FASTFETCH_VERSION="2.40.3"
-  curl -fsSL "https://github.com/fastfetch-cli/fastfetch/releases/download/${FASTFETCH_VERSION}/fastfetch-linux-amd64.deb" -o /tmp/fastfetch.deb
+  FASTFETCH_ARCH="$DEB_ARCH"
+  [[ "$DEB_ARCH" == "arm64" ]] && FASTFETCH_ARCH="aarch64"
+  curl -fsSL "https://github.com/fastfetch-cli/fastfetch/releases/download/${FASTFETCH_VERSION}/fastfetch-linux-${FASTFETCH_ARCH}.deb" -o /tmp/fastfetch.deb
   sudo apt install -y /tmp/fastfetch.deb
   rm /tmp/fastfetch.deb
 else
@@ -72,7 +76,7 @@ fi
 if ! command -v delta &>/dev/null; then
   echo "Installing git-delta..."
   DELTA_VERSION="0.18.2"
-  curl -fsSL "https://github.com/dandavison/delta/releases/download/${DELTA_VERSION}/git-delta_${DELTA_VERSION}_amd64.deb" -o /tmp/git-delta.deb
+  curl -fsSL "https://github.com/dandavison/delta/releases/download/${DELTA_VERSION}/git-delta_${DELTA_VERSION}_${DEB_ARCH}.deb" -o /tmp/git-delta.deb
   sudo apt install -y /tmp/git-delta.deb
   rm /tmp/git-delta.deb
 else
@@ -83,7 +87,9 @@ fi
 if ! command -v lazygit &>/dev/null; then
   echo "Installing lazygit..."
   LAZYGIT_VERSION="0.44.1"
-  curl -fsSL "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz" -o /tmp/lazygit.tar.gz
+  LAZYGIT_ARCH="x86_64"
+  [[ "$DEB_ARCH" == "arm64" ]] && LAZYGIT_ARCH="arm64"
+  curl -fsSL "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_${LAZYGIT_ARCH}.tar.gz" -o /tmp/lazygit.tar.gz
   tar -xf /tmp/lazygit.tar.gz -C /tmp lazygit
   sudo install /tmp/lazygit /usr/local/bin
   rm /tmp/lazygit.tar.gz /tmp/lazygit
@@ -91,17 +97,40 @@ else
   echo "lazygit already installed"
 fi
 
-# yazi is not in the default Ubuntu repos — install via GitHub release
-if ! command -v yazi &>/dev/null; then
-  echo "Installing yazi..."
-  YAZI_VERSION="25.4.8"
-  curl -fsSL "https://github.com/sxyazi/yazi/releases/download/v${YAZI_VERSION}/yazi-x86_64-unknown-linux-gnu.zip" -o /tmp/yazi.zip
-  unzip -o /tmp/yazi.zip -d /tmp/yazi-bin
-  sudo install /tmp/yazi-bin/yazi-x86_64-unknown-linux-gnu/yazi /usr/local/bin
-  rm -rf /tmp/yazi.zip /tmp/yazi-bin
+# neovim from GitHub releases: the Ubuntu package is far too old
+NVIM_VERSION="0.12.6"
+NVIM_DIR="$HOME/.local/opt/nvim-${NVIM_VERSION}"
+if [[ ! -x "$NVIM_DIR/bin/nvim" ]]; then
+  echo "Installing neovim ${NVIM_VERSION}..."
+  case "$(uname -m)" in
+    aarch64) NVIM_ARCH="arm64" ;;
+    *) NVIM_ARCH="$(uname -m)" ;;
+  esac
+  mkdir -p "$NVIM_DIR" "$HOME/.local/bin"
+  curl -fsSL "https://github.com/neovim/neovim/releases/download/v${NVIM_VERSION}/nvim-linux-${NVIM_ARCH}.tar.gz" \
+    | tar -xz -C "$NVIM_DIR" --strip-components=1
 else
-  echo "yazi already installed"
+  echo "neovim ${NVIM_VERSION} already installed at $NVIM_DIR"
 fi
+ln -sf "$NVIM_DIR/bin/nvim" "$HOME/.local/bin/nvim"
+
+# yazi from GitHub releases: not in the Ubuntu repos, and old versions break yazi.nvim
+YAZI_VERSION="26.9.1"
+YAZI_DIR="$HOME/.local/opt/yazi-${YAZI_VERSION}"
+if [[ ! -x "$YAZI_DIR/yazi" ]]; then
+  echo "Installing yazi ${YAZI_VERSION}..."
+  YAZI_PKG="yazi-$(uname -m)-unknown-linux-gnu"
+  YAZI_TMP="$(mktemp -d)"
+  curl -fsSL "https://github.com/sxyazi/yazi/releases/download/v${YAZI_VERSION}/${YAZI_PKG}.zip" -o "$YAZI_TMP/yazi.zip"
+  unzip -q "$YAZI_TMP/yazi.zip" -d "$YAZI_TMP"
+  mkdir -p "$YAZI_DIR" "$HOME/.local/bin"
+  cp "$YAZI_TMP/$YAZI_PKG/yazi" "$YAZI_TMP/$YAZI_PKG/ya" "$YAZI_DIR/"
+  rm -rf "$YAZI_TMP"
+else
+  echo "yazi ${YAZI_VERSION} already installed at $YAZI_DIR"
+fi
+ln -sf "$YAZI_DIR/yazi" "$HOME/.local/bin/yazi"
+ln -sf "$YAZI_DIR/ya" "$HOME/.local/bin/ya"
 
 # Iosevka Term is not in the default Ubuntu repos — install via GitHub release
 FONT_DIR="$HOME/.local/share/fonts/iosevka-term"
