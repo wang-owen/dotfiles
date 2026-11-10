@@ -11,7 +11,6 @@ DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 DNF_PACKAGES=(
   zsh
-  neovim
   tmux
   git
   curl
@@ -28,7 +27,6 @@ DNF_PACKAGES=(
   chafa
   git-delta
   lazygit
-  yazi
   wl-clipboard
   gcc-c++ libasan libubsan
 )
@@ -36,7 +34,6 @@ DNF_PACKAGES=(
 # Enable COPR repos for packages not in the default Fedora repos
 echo "Enabling COPR repos..."
 sudo dnf copr enable -y atim/lazygit
-sudo dnf copr enable -y varlad/yazi
 
 echo "Installing packages via dnf..."
 sudo dnf install -y "${DNF_PACKAGES[@]}"
@@ -54,6 +51,41 @@ if [[ ! -d "$FONT_DIR" ]]; then
 else
   echo "Iosevka Term already installed at $FONT_DIR"
 fi
+
+# neovim from GitHub releases: the Fedora package lags behind
+NVIM_VERSION="0.12.6"
+NVIM_DIR="$HOME/.local/opt/nvim-${NVIM_VERSION}"
+if [[ ! -x "$NVIM_DIR/bin/nvim" ]]; then
+  echo "Installing neovim ${NVIM_VERSION}..."
+  case "$(uname -m)" in
+    aarch64) NVIM_ARCH="arm64" ;;
+    *) NVIM_ARCH="$(uname -m)" ;;
+  esac
+  mkdir -p "$NVIM_DIR" "$HOME/.local/bin"
+  curl -fsSL "https://github.com/neovim/neovim/releases/download/v${NVIM_VERSION}/nvim-linux-${NVIM_ARCH}.tar.gz" \
+    | tar -xz -C "$NVIM_DIR" --strip-components=1
+else
+  echo "neovim ${NVIM_VERSION} already installed at $NVIM_DIR"
+fi
+ln -sf "$NVIM_DIR/bin/nvim" "$HOME/.local/bin/nvim"
+
+# yazi from GitHub releases: the COPR build is stale and breaks yazi.nvim
+YAZI_VERSION="26.9.1"
+YAZI_DIR="$HOME/.local/opt/yazi-${YAZI_VERSION}"
+if [[ ! -x "$YAZI_DIR/yazi" ]]; then
+  echo "Installing yazi ${YAZI_VERSION}..."
+  YAZI_PKG="yazi-$(uname -m)-unknown-linux-gnu"
+  YAZI_TMP="$(mktemp -d)"
+  curl -fsSL "https://github.com/sxyazi/yazi/releases/download/v${YAZI_VERSION}/${YAZI_PKG}.zip" -o "$YAZI_TMP/yazi.zip"
+  unzip -q "$YAZI_TMP/yazi.zip" -d "$YAZI_TMP"
+  mkdir -p "$YAZI_DIR" "$HOME/.local/bin"
+  cp "$YAZI_TMP/$YAZI_PKG/yazi" "$YAZI_TMP/$YAZI_PKG/ya" "$YAZI_DIR/"
+  rm -rf "$YAZI_TMP"
+else
+  echo "yazi ${YAZI_VERSION} already installed at $YAZI_DIR"
+fi
+ln -sf "$YAZI_DIR/yazi" "$HOME/.local/bin/yazi"
+ln -sf "$YAZI_DIR/ya" "$HOME/.local/bin/ya"
 
 # antidote is not in the Fedora repos — install via git clone
 ANTIDOTE_DIR="$HOME/.antidote"
