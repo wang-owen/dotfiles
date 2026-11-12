@@ -19,4 +19,11 @@ fi
 echo "Installing packages via brew bundle..."
 brew bundle --file="$DOTFILES/Brewfile"
 
+if ! command -v claude &>/dev/null && [[ ! -x "$HOME/.local/bin/claude" ]]; then
+  echo "Installing Claude Code..."
+  curl -fsSL https://claude.ai/install.sh | bash
+else
+  echo "Claude Code already installed"
+fi
+
 bash "$DOTFILES/link.sh"

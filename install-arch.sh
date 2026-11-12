@@ -26,6 +26,8 @@ PACMAN_PACKAGES=(
   git-delta
   lazygit
   yazi
+  ghostty
+  tree-sitter-cli
   wl-clipboard
   gcc
   ttc-iosevka
@@ -33,6 +35,13 @@ PACMAN_PACKAGES=(
 
 echo "Installing packages via pacman..."
 sudo pacman -Syu --needed --noconfirm "${PACMAN_PACKAGES[@]}"
+
+if ! command -v claude &>/dev/null && [[ ! -x "$HOME/.local/bin/claude" ]]; then
+  echo "Installing Claude Code..."
+  curl -fsSL https://claude.ai/install.sh | bash
+else
+  echo "Claude Code already installed"
+fi
 
 # antidote is only in the AUR — install via git clone
 ANTIDOTE_DIR="$HOME/.antidote"

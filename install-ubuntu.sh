@@ -146,6 +146,39 @@ else
   echo "Iosevka Term already installed at $FONT_DIR"
 fi
 
+# tree-sitter CLI from GitHub releases: needed by nvim-treesitter, distro packages lag
+TS_VERSION="0.27.2"
+TS_DIR="$HOME/.local/opt/tree-sitter-${TS_VERSION}"
+if [[ ! -x "$TS_DIR/tree-sitter" ]]; then
+  echo "Installing tree-sitter ${TS_VERSION}..."
+  case "$(uname -m)" in
+    aarch64) TS_ARCH="arm64" ;;
+    *) TS_ARCH="x64" ;;
+  esac
+  mkdir -p "$TS_DIR" "$HOME/.local/bin"
+  curl -fsSL "https://github.com/tree-sitter/tree-sitter/releases/download/v${TS_VERSION}/tree-sitter-linux-${TS_ARCH}.gz" \
+    | gunzip > "$TS_DIR/tree-sitter"
+  chmod +x "$TS_DIR/tree-sitter"
+else
+  echo "tree-sitter ${TS_VERSION} already installed at $TS_DIR"
+fi
+ln -sf "$TS_DIR/tree-sitter" "$HOME/.local/bin/tree-sitter"
+
+# ghostty is not in the default Ubuntu repos — install via community .deb script
+if ! command -v ghostty &>/dev/null; then
+  echo "Installing ghostty..."
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/mkasberg/ghostty-ubuntu/HEAD/install.sh)"
+else
+  echo "ghostty already installed"
+fi
+
+if ! command -v claude &>/dev/null && [[ ! -x "$HOME/.local/bin/claude" ]]; then
+  echo "Installing Claude Code..."
+  curl -fsSL https://claude.ai/install.sh | bash
+else
+  echo "Claude Code already installed"
+fi
+
 # antidote is not in any apt repo — install via git clone
 ANTIDOTE_DIR="$HOME/.antidote"
 if [[ ! -d "$ANTIDOTE_DIR" ]]; then

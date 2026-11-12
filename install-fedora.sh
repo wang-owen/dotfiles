@@ -27,6 +27,7 @@ DNF_PACKAGES=(
   chafa
   git-delta
   lazygit
+  ghostty
   wl-clipboard
   gcc-c++ libasan libubsan
 )
@@ -34,6 +35,7 @@ DNF_PACKAGES=(
 # Enable COPR repos for packages not in the default Fedora repos
 echo "Enabling COPR repos..."
 sudo dnf copr enable -y atim/lazygit
+sudo dnf copr enable -y scottames/ghostty
 
 echo "Installing packages via dnf..."
 sudo dnf install -y "${DNF_PACKAGES[@]}"
@@ -86,6 +88,31 @@ else
 fi
 ln -sf "$YAZI_DIR/yazi" "$HOME/.local/bin/yazi"
 ln -sf "$YAZI_DIR/ya" "$HOME/.local/bin/ya"
+
+# tree-sitter CLI from GitHub releases: needed by nvim-treesitter, distro packages lag
+TS_VERSION="0.27.2"
+TS_DIR="$HOME/.local/opt/tree-sitter-${TS_VERSION}"
+if [[ ! -x "$TS_DIR/tree-sitter" ]]; then
+  echo "Installing tree-sitter ${TS_VERSION}..."
+  case "$(uname -m)" in
+    aarch64) TS_ARCH="arm64" ;;
+    *) TS_ARCH="x64" ;;
+  esac
+  mkdir -p "$TS_DIR" "$HOME/.local/bin"
+  curl -fsSL "https://github.com/tree-sitter/tree-sitter/releases/download/v${TS_VERSION}/tree-sitter-linux-${TS_ARCH}.gz" \
+    | gunzip > "$TS_DIR/tree-sitter"
+  chmod +x "$TS_DIR/tree-sitter"
+else
+  echo "tree-sitter ${TS_VERSION} already installed at $TS_DIR"
+fi
+ln -sf "$TS_DIR/tree-sitter" "$HOME/.local/bin/tree-sitter"
+
+if ! command -v claude &>/dev/null && [[ ! -x "$HOME/.local/bin/claude" ]]; then
+  echo "Installing Claude Code..."
+  curl -fsSL https://claude.ai/install.sh | bash
+else
+  echo "Claude Code already installed"
+fi
 
 # antidote is not in the Fedora repos — install via git clone
 ANTIDOTE_DIR="$HOME/.antidote"
