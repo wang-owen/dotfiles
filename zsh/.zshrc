@@ -55,14 +55,16 @@ export FZF_DEFAULT_OPTS="--style full --preview 'if [ -d {} ]; then eza --tree -
 
 # Functions
 
-# zip-src [out.zip]: zip tracked and untracked non-ignored files
+# zip-src [dir | out.zip]: zip tracked and untracked non-ignored files
 function zip-src {
     local repo_root
     repo_root="$(git rev-parse --show-toplevel)" || return 1
-    local out=${1:-"$(basename "$repo_root").zip"}
+    local name="$(basename "$repo_root").zip"
+    local out=${1:-$name}
+    [[ -d $out ]] && out="$out/$name"
     [[ $out = /* ]] || out="$PWD/$out"
     rm -f "$out"
-    (cd "$repo_root" && git ls-files -co --exclude-standard | zip -q "$out" -@)
+    (cd "$repo_root" && git ls-files -co --exclude-standard | zip -q "$out" -@) || return 1
     echo "wrote $out"
 }
 
