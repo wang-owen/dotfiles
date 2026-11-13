@@ -78,6 +78,11 @@ else
   link "mako"               "$HOME/.config/mako"
   link "gtklock"            "$HOME/.config/gtklock"
   link "ghostty/linux"      "$HOME/.config/ghostty-linux"
+  link "theme/theme-switch"         "$HOME/.local/bin/theme-switch"
+  link "theme/theme-switch.service" "$HOME/.config/systemd/user/theme-switch.service"
+  link "theme/theme-switch.timer"   "$HOME/.config/systemd/user/theme-switch.timer"
+  systemctl --user daemon-reload
+  systemctl --user enable --now theme-switch.timer
   # GNOME Settings won't start outside GNOME
   link "applications/org.gnome.Settings.desktop" "$HOME/.local/share/applications/org.gnome.Settings.desktop"
 fi

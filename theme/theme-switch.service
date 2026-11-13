@@ -1,0 +1,6 @@
+[Unit]
+Description=Switch light/dark theme at sunrise and sunset
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/theme-switch auto

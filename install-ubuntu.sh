@@ -45,6 +45,8 @@ APT_PACKAGES=(
   playerctl
   pavucontrol
   xdg-desktop-portal-wlr
+  # Settings portal: apps read light/dark from it
+  xdg-desktop-portal-gtk
   lxpolkit
   keyd
   jq
