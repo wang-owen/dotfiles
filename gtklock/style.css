@@ -1,0 +1,53 @@
+/* Gruvbox Dark Hard */
+
+window {
+  background-color: #1d2021;
+}
+
+#window-box {
+  font-family: "Iosevka Term", monospace;
+}
+
+#clock-label {
+  font-size: 72pt;
+  color: #ebdbb2;
+}
+
+#date-label {
+  font-size: 16pt;
+  color: #a89984;
+  margin-bottom: 32px;
+}
+
+/* Hide the label and unlock button */
+#input-label,
+#unlock-button {
+  all: unset;
+  opacity: 0;
+  font-size: 1px;
+  min-width: 0;
+  min-height: 0;
+}
+
+#input-field {
+  min-width: 320px;
+  padding: 10px 14px;
+  font-size: 12pt;
+  color: #ebdbb2;
+  background: #282828;
+  border: 2px solid #504945;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+#input-field:focus {
+  border-color: #a89984;
+}
+
+#error-label {
+  color: #fb4934;
+}
+
+#warning-label {
+  color: #fabd2f;
+}

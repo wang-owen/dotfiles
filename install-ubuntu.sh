@@ -13,6 +13,7 @@ APT_PACKAGES=(
   zsh
   tmux
   git
+  gh
   curl
   unzip
   fontconfig
@@ -22,7 +23,31 @@ APT_PACKAGES=(
   fzf
   btop
   chafa
+  # fastfetch loads this at runtime to render its image logo
+  libmagickcore-7.q16hdri-10
   g++
+  # mason.nvim
+  nodejs
+  npm
+  python3-venv
+  # sway desktop
+  sway
+  swaybg
+  swayidle
+  gtklock
+  waybar
+  fuzzel
+  mako-notifier
+  grim
+  slurp
+  wl-clipboard
+  brightnessctl
+  playerctl
+  pavucontrol
+  xdg-desktop-portal-wlr
+  lxpolkit
+  keyd
+  jq
 )
 
 echo "Updating package index..."
@@ -34,6 +59,12 @@ sudo apt install -y "${APT_PACKAGES[@]}"
 # Ubuntu renames bat and fd
 sudo ln -sf /usr/bin/batcat /usr/local/bin/bat
 sudo ln -sf /usr/bin/fdfind /usr/local/bin/fd
+
+# keyd: Mac-style Cmd/Option keys
+sudo mkdir -p /etc/keyd
+sudo ln -sf "$DOTFILES/keyd/default.conf" /etc/keyd/default.conf
+sudo systemctl enable --now keyd
+sudo keyd.rvaiya reload
 
 # CPU arch for GitHub release downloads: amd64 or arm64
 DEB_ARCH="$(dpkg --print-architecture)"
@@ -132,19 +163,31 @@ fi
 ln -sf "$YAZI_DIR/yazi" "$HOME/.local/bin/yazi"
 ln -sf "$YAZI_DIR/ya" "$HOME/.local/bin/ya"
 
-# Iosevka Term is not in the default Ubuntu repos — install via GitHub release
-FONT_DIR="$HOME/.local/share/fonts/iosevka-term"
-if [[ ! -d "$FONT_DIR" ]]; then
-  echo "Installing Iosevka Term..."
-  IOSEVKA_VERSION="34.9.0"
-  curl -fsSL "https://github.com/be5invis/Iosevka/releases/download/v${IOSEVKA_VERSION}/PkgTTC-SGr-IosevkaTerm-${IOSEVKA_VERSION}.zip" -o /tmp/iosevka-term.zip
-  mkdir -p "$FONT_DIR"
-  unzip -o /tmp/iosevka-term.zip -d "$FONT_DIR"
-  rm /tmp/iosevka-term.zip
-  fc-cache -f "$FONT_DIR"
-else
-  echo "Iosevka Term already installed at $FONT_DIR"
-fi
+# install_font <name> <dir> <url> [unzip pattern]
+install_font() {
+  local name="$1" dir="$2" url="$3" pattern="${4:-*}" tmp
+  if [[ -d "$dir" ]]; then
+    echo "$name already installed at $dir"
+    return
+  fi
+  echo "Installing $name..."
+  tmp="$(mktemp -d)"
+  curl -fsSL "$url" -o "$tmp/font.zip"
+  mkdir -p "$dir"
+  unzip -o "$tmp/font.zip" "$pattern" -d "$dir"
+  rm -rf "$tmp"
+  fc-cache -f "$dir"
+}
+
+# Iosevka Term is not in the default Ubuntu repos
+IOSEVKA_VERSION="34.9.0"
+install_font "Iosevka Term" "$HOME/.local/share/fonts/iosevka-term" \
+  "https://github.com/be5invis/Iosevka/releases/download/v${IOSEVKA_VERSION}/PkgTTC-SGr-IosevkaTerm-${IOSEVKA_VERSION}.zip"
+
+# Symbols Nerd Font: waybar icons
+NERD_FONTS_VERSION="3.4.0"
+install_font "Symbols Nerd Font" "$HOME/.local/share/fonts/symbols-nerd-font" \
+  "https://github.com/ryanoasis/nerd-fonts/releases/download/v${NERD_FONTS_VERSION}/NerdFontsSymbolsOnly.zip" '*.ttf'
 
 # tree-sitter CLI from GitHub releases: needed by nvim-treesitter, distro packages lag
 TS_VERSION="0.27.2"

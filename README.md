@@ -18,6 +18,12 @@ Personal configuration files for macOS and Linux.
 | `clangd/` | clangd (LSP config) |
 | `cp/` | Competitive programming templates |
 | `aerospace/` | AeroSpace window manager (macOS) |
+| `sway/` | Sway window manager (Linux, AeroSpace-style bindings) |
+| `waybar/` | Waybar status bar for sway |
+| `fuzzel/` | Fuzzel app launcher for sway |
+| `mako/` | Mako notifications for sway |
+| `gtklock/` | Lock screen for sway |
+| `keyd/` | Mac-style Cmd/Option keys on Linux |
 | `claude/` | Claude Code settings and status line |
 
 ## Setup
@@ -33,7 +39,7 @@ On macOS, the first `git` call prompts to install the Xcode Command Line Tools.
 ### 2. Run the install script
 
 ```sh
-bash ~/dotfiles/install-macos.sh   # or install-arch.sh / install-fedora.sh / install-ubuntu.sh
+bash ~/dotfiles/install-macos.sh   # or install-ubuntu.sh
 ```
 
 Each script installs packages (macOS: Homebrew and the `Brewfile`), sets zsh as the login shell on Linux, and runs `link.sh` to symlink configs into place, overwriting existing files. To only relink, run `bash ~/dotfiles/link.sh`.
@@ -41,6 +47,7 @@ Each script installs packages (macOS: Homebrew and the `Brewfile`), sets zsh as 
 ### 3. Manual steps
 
 - Install the [MesloLGS NF](https://github.com/romkatv/powerlevel10k#fonts) font and set it in your terminal.
+- Sway (Ubuntu): pick "Sway" on the login screen and set `$mon1`/`$mon2` in `sway/config`. keyd makes Alt act as Cmd and Super as Option.
 - For LaTeX, install a TeX distribution (provides `latexmk`).
 - For competitive programming, install the [Competitive Companion](https://github.com/jmerle/competitive-companion) browser extension.
 

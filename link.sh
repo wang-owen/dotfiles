@@ -35,6 +35,25 @@ link "zsh/.zsh_plugins.txt" "$HOME/.zsh_plugins.txt"
 link "tmux/tmux.conf" "$HOME/.tmux.conf"
 link "tmux/sessions.sh" "$HOME/.config/tmux/sessions.sh"
 
+# TPM and tmux plugins, installed via a throwaway tmux server
+TPM_DIR="$HOME/.tmux/plugins/tpm"
+if [[ ! -d "$TPM_DIR" ]]; then
+  echo "Cloning tpm..."
+  git clone --depth=1 https://github.com/tmux-plugins/tpm "$TPM_DIR"
+fi
+missing_plugin=false
+for plugin in $(sed -n "s/^set -g @plugin '\(.*\)'/\1/p" "$DOTFILES/tmux/tmux.conf"); do
+  [[ -d "$HOME/.tmux/plugins/${plugin##*/}" ]] || missing_plugin=true
+done
+if $missing_plugin && command -v tmux &>/dev/null; then
+  echo "Installing tmux plugins..."
+  tmux -L tpm-install -f "$HOME/.tmux.conf" new-session -d
+  TMUX="$(tmux -L tpm-install display -p '#{socket_path}'),0,0" "$TPM_DIR/bin/install_plugins"
+  tmux -L tpm-install kill-server
+  # load new plugins into a running server
+  tmux source-file "$HOME/.tmux.conf" 2>/dev/null || true
+fi
+
 # git
 link "git/gitconfig" "$HOME/.gitconfig"
 link "git/ignore"    "$HOME/.config/git/ignore"
@@ -53,6 +72,14 @@ if [[ "$(uname)" == "Darwin" ]]; then
   link "clangd/config.yaml" "$HOME/Library/Preferences/clangd/config.yaml"
 else
   link "clangd/config.yaml" "$HOME/.config/clangd/config.yaml"
+  link "sway"               "$HOME/.config/sway"
+  link "waybar"             "$HOME/.config/waybar"
+  link "fuzzel"             "$HOME/.config/fuzzel"
+  link "mako"               "$HOME/.config/mako"
+  link "gtklock"            "$HOME/.config/gtklock"
+  link "ghostty/linux"      "$HOME/.config/ghostty-linux"
+  # GNOME Settings won't start outside GNOME
+  link "applications/org.gnome.Settings.desktop" "$HOME/.local/share/applications/org.gnome.Settings.desktop"
 fi
 
 echo "Done. Restart your shell or run: exec zsh"

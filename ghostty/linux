@@ -1,0 +1,20 @@
+# Linux-only, included from ghostty/config
+
+# Offsets sway's 1.5x scale
+font-size = 12
+
+# Clear screen: tmux prefix + C-l
+keybind = ctrl+super+l=text:\x01\x0c
+
+# ---Mac-style keys from keyd---
+
+# cmd+c / cmd+v
+keybind = ctrl+insert=copy_to_clipboard
+keybind = shift+insert=paste_from_clipboard
+# cmd+backspace -> ctrl+u
+keybind = shift+home=text:\x15
+# option+backspace -> alt+backspace
+keybind = ctrl+backspace=text:\x1b\x7f
+# option+shift+arrows: don't switch tabs
+keybind = ctrl+shift+arrow_left=unbind
+keybind = ctrl+shift+arrow_right=unbind

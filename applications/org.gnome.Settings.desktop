@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Settings
+Comment=GNOME Settings (Wi-Fi, Bluetooth, sound, users, printers)
+Exec=env XDG_CURRENT_DESKTOP=GNOME gnome-control-center
+Icon=org.gnome.Settings
+Type=Application
+Categories=GTK;Settings;

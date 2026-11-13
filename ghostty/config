@@ -21,3 +21,6 @@ macos-option-as-alt = true
 # ---Keybindings---
 
 keybind = global:alt+`=toggle_visibility
+
+# Linux-only overrides (ghostty/linux)
+config-file = ?~/.config/ghostty-linux

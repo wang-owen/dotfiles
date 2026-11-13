@@ -1,0 +1,91 @@
+/* Gruvbox Dark Hard */
+
+* {
+  font-family: "Iosevka Term", "Symbols Nerd Font", monospace;
+  font-size: 12pt;
+  border: none;
+  border-radius: 0;
+  min-height: 0;
+}
+
+window#waybar {
+  background: #1d2021;
+  color: #ebdbb2;
+  border-bottom: 1px solid #3c3836;
+}
+
+tooltip {
+  background: #282828;
+  border: 1px solid #504945;
+}
+
+tooltip label {
+  color: #ebdbb2;
+}
+
+#workspaces button {
+  padding: 0 10px;
+  color: #7c6f64;
+  background: transparent;
+  box-shadow: inset 0 -2px transparent;
+}
+
+#workspaces button:hover {
+  color: #ebdbb2;
+  background: #282828;
+}
+
+#workspaces button.visible {
+  color: #bdae93;
+}
+
+#workspaces button.focused {
+  color: #ebdbb2;
+  background: #3c3836;
+  box-shadow: inset 0 -2px #a89984;
+}
+
+#workspaces button.urgent {
+  color: #fb4934;
+  box-shadow: inset 0 -2px #fb4934;
+}
+
+#mode {
+  padding: 0 10px;
+  color: #1d2021;
+  background: #a89984;
+}
+
+#custom-clock {
+  padding: 0 12px;
+  font-weight: bold;
+}
+
+#cpu,
+#memory,
+#pulseaudio,
+#network,
+#battery,
+#tray {
+  padding: 0 10px;
+  color: #bdae93;
+}
+
+#cpu.high,
+#memory.high,
+#battery.warning {
+  color: #fabd2f;
+}
+
+#battery.critical,
+#network.disconnected {
+  color: #fb4934;
+}
+
+#pulseaudio.muted {
+  color: #7c6f64;
+}
+
+#tray > .needs-attention {
+  background: #fb4934;
+}
