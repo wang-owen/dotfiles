@@ -6,3 +6,9 @@ os:
   editPreset: nvim-remote
 
 promptToReturnFromSubprocess: false
+
+# o: edit in nvim, e: open in default app
+keybinding:
+  universal:
+    edit: o
+    openFile: e
