@@ -68,6 +68,9 @@ sudo ln -sf "$DOTFILES/keyd/default.conf" /etc/keyd/default.conf
 sudo systemctl enable --now keyd
 sudo keyd.rvaiya reload
 
+# Away mode: systemd unit + sudoers rule for the waybar toggle
+bash "$DOTFILES/away/install.sh"
+
 # CPU arch for GitHub release downloads: amd64 or arm64
 DEB_ARCH="$(dpkg --print-architecture)"
 

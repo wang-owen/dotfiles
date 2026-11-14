@@ -4,7 +4,7 @@
   "spacing": 4,
   "modules-left": ["sway/workspaces", "sway/mode"],
   "modules-center": ["custom/clock"],
-  "modules-right": ["cpu", "memory", "pulseaudio", "network", "battery", "tray", "custom/power"],
+  "modules-right": ["cpu", "memory", "pulseaudio", "network", "battery", "custom/away", "tray", "custom/power"],
 
   "sway/workspaces": {
     "disable-scroll": true
@@ -47,6 +47,16 @@
     "format-charging": "{icon} {capacity}% +",
     "format-icons": ["", "", "", "", ""],
     "states": { "warning": 20, "critical": 10 }
+  },
+  // away(1) signals RTMIN+8 on toggle; interval catches raw systemctl changes
+  "custom/away": {
+    "exec": "$HOME/.local/bin/away waybar",
+    "return-type": "json",
+    "interval": 5,
+    "signal": 8,
+    "format": "{icon}",
+    "format-icons": { "on": "󰅶", "off": "󰛊" },
+    "on-click": "$HOME/.local/bin/away toggle"
   },
   "tray": {
     "spacing": 8

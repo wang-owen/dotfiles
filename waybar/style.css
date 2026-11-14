@@ -96,6 +96,22 @@ tooltip label {
   background: #282828;
 }
 
+#custom-away {
+  padding: 0 10px;
+}
+
+#custom-away.off {
+  color: #7c6f64;
+}
+
+#custom-away.on {
+  color: #fabd2f;
+}
+
+#custom-away:hover {
+  background: #282828;
+}
+
 #tray > .needs-attention {
   background: #fb4934;
 }

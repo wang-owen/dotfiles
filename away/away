@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+# Away mode: keep the machine awake while working on it remotely.
+# Usage: away on|off|toggle|status|waybar
+set -euo pipefail
+
+UNIT=away.service
+SIGNAL=8 # matches "signal" of custom/away in waybar/config.jsonc
+
+is_on() { systemctl is-active --quiet "$UNIT"; }
+
+refresh_bar() { pkill -RTMIN+"$SIGNAL" -x waybar 2>/dev/null || true; }
+
+notify() { notify-send -a away -t 2000 "$@" 2>/dev/null || true; }
+
+# The argv must match /etc/sudoers.d/away exactly
+set_state() {
+  local verb=$1
+  if ! systemctl cat "$UNIT" &>/dev/null; then
+    echo "away: $UNIT is not installed; run ~/dotfiles/away/install.sh" >&2
+    notify -u critical "Away mode" "$UNIT is not installed"
+    exit 1
+  fi
+  if ! sudo -n /usr/bin/systemctl "$verb" --now "$UNIT"; then
+    echo "away: sudo rule missing; run ~/dotfiles/away/install.sh" >&2
+    notify -u critical "Away mode" "Could not $verb $UNIT"
+    exit 1
+  fi
+  refresh_bar
+  if is_on; then
+    notify "Away mode on" "Sleep and idle are inhibited"
+  else
+    notify "Away mode off" "Sleep works normally"
+  fi
+}
+
+case "${1:-status}" in
+  on) set_state enable ;;
+  off) set_state disable ;;
+  toggle) if is_on; then set_state disable; else set_state enable; fi ;;
+  status)
+    if is_on; then echo on; else echo off; exit 1; fi
+    ;;
+  waybar)
+    if is_on; then
+      printf '{"text":"on","alt":"on","class":"on","tooltip":"Away mode on: sleep inhibited\\nClick to turn off"}\n'
+    else
+      printf '{"text":"off","alt":"off","class":"off","tooltip":"Away mode off\\nClick to keep awake"}\n'
+    fi
+    ;;
+  *)
+    echo "usage: away on|off|toggle|status|waybar" >&2
+    exit 2
+    ;;
+esac

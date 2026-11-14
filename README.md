@@ -23,6 +23,7 @@ Personal configuration files for macOS and Linux.
 | `fuzzel/` | Fuzzel app launcher for sway |
 | `mako/` | Mako notifications for sway |
 | `gtklock/` | Lock screen for sway |
+| `away/` | Away mode: keep the machine awake for remote work (`away on\|off\|status`, waybar toggle) |
 | `keyd/` | Mac-style Cmd/Option keys on Linux |
 | `claude/` | Claude Code settings and status line |
 
@@ -48,6 +49,7 @@ Each script installs packages (macOS: Homebrew and the `Brewfile`), sets zsh as 
 
 - Install the [MesloLGS NF](https://github.com/romkatv/powerlevel10k#fonts) font and set it in your terminal.
 - Sway (Ubuntu): pick "Sway" on the login screen and set `$mon1`/`$mon2` in `sway/config`. keyd makes Alt act as Cmd and Super as Option.
+- Away mode (Ubuntu): `install-ubuntu.sh` runs `away/install.sh`, which copies `away.service` and a sudoers rule into `/etc`. Rerun it after editing `away/away.service`.
 - For LaTeX, install a TeX distribution (provides `latexmk`).
 - For competitive programming, install the [Competitive Companion](https://github.com/jmerle/competitive-companion) browser extension.
 

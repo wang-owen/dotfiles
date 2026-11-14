@@ -81,6 +81,7 @@ else
   link "theme/theme-switch"         "$HOME/.local/bin/theme-switch"
   link "theme/theme-switch.service" "$HOME/.config/systemd/user/theme-switch.service"
   link "theme/theme-switch.timer"   "$HOME/.config/systemd/user/theme-switch.timer"
+  link "away/away"                  "$HOME/.local/bin/away"
   systemctl --user daemon-reload
   systemctl --user enable --now theme-switch.timer
   # GNOME Settings won't start outside GNOME
