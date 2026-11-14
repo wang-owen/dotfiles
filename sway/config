@@ -260,3 +260,7 @@ exec swayidle -w \
     lock '$lock'
 
 include /etc/sway/config.d/*
+
+# Portals outlive logout with the old session's env, so GTK apps and waybar
+# hit a 25s timeout reading color-scheme on re-login. Restart them here.
+exec "systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP; systemctl --user restart xdg-desktop-portal-gtk xdg-desktop-portal"
