@@ -10,6 +10,7 @@ fi
 
 # Environment variables
 export EDITOR=nvim
+export SUDO_EDITOR=nvim
 export EZA_ICONS_AUTO=1
 typeset -U path; path=(~/.local/bin $path)
 
