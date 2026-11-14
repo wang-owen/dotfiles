@@ -86,6 +86,16 @@ tooltip label {
   color: #7c6f64;
 }
 
+#custom-power {
+  padding: 0 12px 0 10px;
+  color: #bdae93;
+}
+
+#custom-power:hover {
+  color: #ebdbb2;
+  background: #282828;
+}
+
 #tray > .needs-attention {
   background: #fb4934;
 }

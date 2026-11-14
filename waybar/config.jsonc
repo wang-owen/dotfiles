@@ -4,7 +4,7 @@
   "spacing": 4,
   "modules-left": ["sway/workspaces", "sway/mode"],
   "modules-center": ["custom/clock"],
-  "modules-right": ["cpu", "memory", "pulseaudio", "network", "battery", "tray"],
+  "modules-right": ["cpu", "memory", "pulseaudio", "network", "battery", "tray", "custom/power"],
 
   "sway/workspaces": {
     "disable-scroll": true
@@ -50,5 +50,10 @@
   },
   "tray": {
     "spacing": 8
+  },
+  "custom/power": {
+    "format": "󰐥",
+    "tooltip-format": "Power",
+    "on-click": "~/.config/waybar/scripts/power-menu.sh"
   }
 }
