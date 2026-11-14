@@ -10,6 +10,9 @@ set -euo pipefail
 LAT=43.65
 LON=-79.38
 
+# Yaru accent variant (blank = default orange): sage, blue, olive, purple, ...
+ACCENT=sage
+
 STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/theme"
 mkdir -p "$STATE_DIR"
 
@@ -36,13 +39,15 @@ PY
 }
 
 apply() {
-  local mode="$1"
+  local mode="$1" theme="Yaru${ACCENT:+-$ACCENT}"
   if [[ "$mode" == dark ]]; then
     gsettings set org.gnome.desktop.interface color-scheme prefer-dark
-    gsettings set org.gnome.desktop.interface gtk-theme Yaru-dark
+    gsettings set org.gnome.desktop.interface gtk-theme "$theme-dark"
+    gsettings set org.gnome.desktop.interface icon-theme "$theme-dark"
   else
     gsettings set org.gnome.desktop.interface color-scheme default
-    gsettings set org.gnome.desktop.interface gtk-theme Yaru
+    gsettings set org.gnome.desktop.interface gtk-theme "$theme"
+    gsettings set org.gnome.desktop.interface icon-theme "$theme"
   fi
 }
 
