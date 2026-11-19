@@ -9,6 +9,15 @@ fi
 
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+# --headless: skip terminal and desktop configs (Linux)
+HEADLESS=false
+for arg in "$@"; do
+  case "$arg" in
+    --headless) HEADLESS=true ;;
+    *) echo "Usage: $0 [--headless]" >&2; exit 1 ;;
+  esac
+done
+
 link() {
   local src="$DOTFILES/$1"
   local dst="$2"
@@ -21,7 +30,7 @@ link() {
 link "fastfetch"  "$HOME/.config/fastfetch"
 link "nvim"       "$HOME/.config/nvim"
 link "yazi"       "$HOME/.config/yazi"
-link "ghostty"    "$HOME/.config/ghostty"
+$HEADLESS || link "ghostty" "$HOME/.config/ghostty"
 link "lazygit"    "$HOME/.config/lazygit"
 link "btop"       "$HOME/.config/btop"
 
@@ -70,6 +79,8 @@ done
 if [[ "$(uname)" == "Darwin" ]]; then
   link "aerospace"          "$HOME/.config/aerospace"
   link "clangd/config.yaml" "$HOME/Library/Preferences/clangd/config.yaml"
+elif $HEADLESS; then
+  link "clangd/config.yaml" "$HOME/.config/clangd/config.yaml"
 else
   link "clangd/config.yaml" "$HOME/.config/clangd/config.yaml"
   link "sway"               "$HOME/.config/sway"

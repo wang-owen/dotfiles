@@ -9,6 +9,15 @@ fi
 
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+# --headless: dev tools only, for a machine you ssh into (no desktop, keyd, fonts or ghostty)
+HEADLESS=false
+for arg in "$@"; do
+  case "$arg" in
+    --headless) HEADLESS=true ;;
+    *) echo "Usage: $0 [--headless]" >&2; exit 1 ;;
+  esac
+done
+
 APT_PACKAGES=(
   zsh
   tmux
@@ -16,7 +25,7 @@ APT_PACKAGES=(
   gh
   curl
   unzip
-  fontconfig
+  jq
   bat
   ripgrep
   fd-find
@@ -30,6 +39,10 @@ APT_PACKAGES=(
   nodejs
   npm
   python3-venv
+)
+
+DESKTOP_PACKAGES=(
+  fontconfig
   # sway desktop
   sway
   swaybg
@@ -49,8 +62,9 @@ APT_PACKAGES=(
   xdg-desktop-portal-gtk
   lxpolkit
   keyd
-  jq
 )
+
+$HEADLESS || APT_PACKAGES+=("${DESKTOP_PACKAGES[@]}")
 
 echo "Updating package index..."
 sudo apt update
@@ -63,14 +77,16 @@ sudo ln -sf /usr/bin/batcat /usr/local/bin/bat
 sudo ln -sf /usr/bin/fdfind /usr/local/bin/fd
 
 # keyd: Mac-style Cmd/Option keys
-sudo mkdir -p /etc/keyd
-sudo ln -sf "$DOTFILES/keyd/default.conf" /etc/keyd/default.conf
-sudo systemctl enable --now keyd
-sudo keyd.rvaiya reload
+if ! $HEADLESS; then
+  sudo mkdir -p /etc/keyd
+  sudo ln -sf "$DOTFILES/keyd/default.conf" /etc/keyd/default.conf
+  sudo systemctl enable --now keyd
+  sudo keyd.rvaiya reload
 
-# Away mode: systemd unit + sudoers rule for the waybar toggle
-bash "$DOTFILES/away/install.sh"
-bash "$DOTFILES/gdm/install.sh"
+  # Away mode: systemd unit + sudoers rule for the waybar toggle
+  bash "$DOTFILES/away/install.sh"
+  bash "$DOTFILES/gdm/install.sh"
+fi
 
 # CPU arch for GitHub release downloads: amd64 or arm64
 DEB_ARCH="$(dpkg --print-architecture)"
@@ -185,15 +201,17 @@ install_font() {
   fc-cache -f "$dir"
 }
 
-# Iosevka Term is not in the default Ubuntu repos
-IOSEVKA_VERSION="34.9.0"
-install_font "Iosevka Term" "$HOME/.local/share/fonts/iosevka-term" \
-  "https://github.com/be5invis/Iosevka/releases/download/v${IOSEVKA_VERSION}/PkgTTC-SGr-IosevkaTerm-${IOSEVKA_VERSION}.zip"
+if ! $HEADLESS; then
+  # Iosevka Term is not in the default Ubuntu repos
+  IOSEVKA_VERSION="34.9.0"
+  install_font "Iosevka Term" "$HOME/.local/share/fonts/iosevka-term" \
+    "https://github.com/be5invis/Iosevka/releases/download/v${IOSEVKA_VERSION}/PkgTTC-SGr-IosevkaTerm-${IOSEVKA_VERSION}.zip"
 
-# Symbols Nerd Font: waybar icons
-NERD_FONTS_VERSION="3.4.0"
-install_font "Symbols Nerd Font" "$HOME/.local/share/fonts/symbols-nerd-font" \
-  "https://github.com/ryanoasis/nerd-fonts/releases/download/v${NERD_FONTS_VERSION}/NerdFontsSymbolsOnly.zip" '*.ttf'
+  # Symbols Nerd Font: waybar icons
+  NERD_FONTS_VERSION="3.4.0"
+  install_font "Symbols Nerd Font" "$HOME/.local/share/fonts/symbols-nerd-font" \
+    "https://github.com/ryanoasis/nerd-fonts/releases/download/v${NERD_FONTS_VERSION}/NerdFontsSymbolsOnly.zip" '*.ttf'
+fi
 
 # tree-sitter CLI from GitHub releases: needed by nvim-treesitter, distro packages lag
 TS_VERSION="0.27.2"
@@ -214,7 +232,9 @@ fi
 ln -sf "$TS_DIR/tree-sitter" "$HOME/.local/bin/tree-sitter"
 
 # ghostty is not in the default Ubuntu repos — install via community .deb script
-if ! command -v ghostty &>/dev/null; then
+if $HEADLESS; then
+  :
+elif ! command -v ghostty &>/dev/null; then
   echo "Installing ghostty..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/mkasberg/ghostty-ubuntu/HEAD/install.sh)"
 else
@@ -239,7 +259,12 @@ fi
 
 if [[ "$(basename "$SHELL")" != "zsh" ]]; then
   echo "Setting zsh as the login shell..."
-  chsh -s "$(command -v zsh)"
+  # via sudo: plain chsh asks for a password, which OrbStack users don't have
+  sudo chsh -s "$(command -v zsh)" "$USER"
 fi
 
-bash "$DOTFILES/link.sh"
+if $HEADLESS; then
+  bash "$DOTFILES/link.sh" --headless
+else
+  bash "$DOTFILES/link.sh"
+fi

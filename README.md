@@ -43,6 +43,8 @@ On macOS, the first `git` call prompts to install the Xcode Command Line Tools.
 bash ~/dotfiles/install-macos.sh   # or install-ubuntu.sh
 ```
 
+For an Ubuntu machine you only ssh into (e.g. OrbStack), run `bash ~/dotfiles/install-ubuntu.sh --headless` to install dev tools only, skipping the sway desktop, keyd, away mode, GDM, fonts and Ghostty.
+
 Each script installs packages (macOS: Homebrew and the `Brewfile`), sets zsh as the login shell on Linux, and runs `link.sh` to symlink configs into place, overwriting existing files. To only relink, run `bash ~/dotfiles/link.sh`.
 
 ### 3. Manual steps
