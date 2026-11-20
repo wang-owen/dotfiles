@@ -1,5 +1,12 @@
 # Must run before the p10k instant prompt
-[[ -z $TMUX && -z $NVIM ]] && fastfetch
+if [[ -z $TMUX && -z $NVIM ]]; then
+  # Kitty image logo doesn't render over SSH; fall back to the built-in ASCII logo
+  if [[ -n $SSH_CONNECTION ]]; then
+    fastfetch --logo-type builtin
+  else
+    fastfetch
+  fi
+fi
 
 # p10k instant prompt
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
