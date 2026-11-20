@@ -3,7 +3,7 @@
 Description=Away mode: keep the machine awake for remote work
 
 [Service]
-ExecStart=/usr/bin/systemd-inhibit --what=sleep:idle --mode=block --who=away --why="Away mode is on" /usr/bin/sleep infinity
+ExecStart=/usr/bin/systemd-inhibit --what=sleep --mode=block --who=away --why="Away mode is on" /usr/bin/sleep infinity
 
 [Install]
 WantedBy=multi-user.target

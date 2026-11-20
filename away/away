@@ -27,7 +27,7 @@ set_state() {
   fi
   refresh_bar
   if is_on; then
-    notify "Away mode on" "Sleep and idle are inhibited"
+    notify "Away mode on" "Sleep is inhibited; screen still blanks"
   else
     notify "Away mode off" "Sleep works normally"
   fi
