@@ -6,7 +6,8 @@ set $sys Mod4+Mod1
 set $term ghostty
 set $menu fuzzel
 set $scripts ~/.config/sway/scripts
-set $lock gtklock -d -s ~/.config/gtklock/style.css
+# gtklock switches sway into the "locked" mode so lock-screen-only bindings apply
+set $lock gtklock -d -s ~/.config/gtklock/style.css -L 'swaymsg mode locked' -U 'swaymsg mode default'
 
 # Outputs (swaymsg -t get_outputs): letters on $mon1, numbers on $mon2
 set $mon1 DP-2
@@ -215,6 +216,11 @@ bindsym $sys+Tab exec $scripts/window-switcher.sh
 bindsym $sys+q kill
 bindsym $sys+Shift+e exec swaynag -t warning -m 'Exit sway?' -B 'Exit' 'swaymsg exit'
 bindsym $sys+Escape exec $lock
+
+# Only active while gtklock is up: Escape turns the displays off
+mode "locked" {
+    bindsym --locked --release Escape exec $scripts/screen-off.sh
+}
 bindsym $sys+Shift+4 exec grim -g "$(slurp)" - | wl-copy
 bindsym $sys+Shift+3 exec grim - | wl-copy
 
