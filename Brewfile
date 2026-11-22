@@ -17,11 +17,9 @@ brew "neovim"
 brew "tmux"
 brew "lazygit"
 brew "gh"
-brew "tex-fmt"
 brew "chafa"
 brew "tree-sitter-cli"
 
 cask "ghostty"
 cask "aerospace"
-cask "skim"  # LaTeX PDF preview
 cask "font-iosevka"
