@@ -17,6 +17,14 @@ if vim.fn.has 'linux' == 1 and vim.fn.executable 'mac' == 1 then
     paste = { ['+'] = { 'mac', 'pbpaste' }, ['*'] = { 'mac', 'pbpaste' } },
     cache_enabled = 0,
   }
+-- Over SSH, copy to the local clipboard via OSC 52
+elseif vim.env.SSH_TTY then
+  local osc52 = require 'vim.ui.clipboard.osc52'
+  vim.g.clipboard = {
+    name = 'osc52',
+    copy = { ['+'] = osc52.copy '+', ['*'] = osc52.copy '*' },
+    paste = { ['+'] = osc52.paste '+', ['*'] = osc52.paste '*' },
+  }
 end
 
 vim.opt.cmdheight = 0

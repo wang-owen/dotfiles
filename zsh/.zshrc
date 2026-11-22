@@ -55,6 +55,9 @@ alias top='btop'
 
 diff() { command diff -u "$@" | delta; return $pipestatus[1]; }
 
+# Copy stdin to the local clipboard via OSC 52 (works over SSH and through tmux)
+yank() { printf '\e]52;c;%s\a' "$(base64 | tr -d '\n')" > /dev/tty }
+
 # fzf config
 export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --follow --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
