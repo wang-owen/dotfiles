@@ -35,7 +35,8 @@ popup() {
     { gsub(/\033\[[0-9;]*m/, "", $2); if (length($1) > n) n = length($1); if (length($2) > i) i = length($2) }
     END { print NR, n, i }')
   width=$(( name_w + gap + info_w + chrome ))
-  tmux display-popup -c "$1" -E -B -w $(( width > min_width ? width : min_width )) -h $(( rows + 2 )) "$self" pick "$name_w"
+  # height: list border (2) + room for the search input box that `/` reveals (3)
+  tmux display-popup -c "$1" -E -B -w $(( width > min_width ? width : min_width )) -h $(( rows + 5 )) "$self" pick "$name_w"
 }
 
 hints() {
