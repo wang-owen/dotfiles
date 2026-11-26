@@ -1,3 +1,19 @@
+-- Show the full (wrapped) diagnostic message instead of the file
+local function diagnostic_preview(ctx)
+  local diag = ctx.item.item
+  local header = vim.fn.fnamemodify(ctx.item.file or '', ':~:.') .. ':' .. ctx.item.pos[1]
+  local meta = table.concat(vim.tbl_filter(function(s) return s ~= '' end, {
+    diag.source or '',
+    diag.code and ('(' .. diag.code .. ')') or '',
+  }), ' ')
+  local text = '**' .. header .. '**' .. (meta ~= '' and ('  `' .. meta .. '`') or '') .. '\n\n' .. diag.message
+  ctx.preview:reset()
+  ctx.preview:set_title(vim.diagnostic.severity[diag.severity] or 'Diagnostic')
+  ctx.preview:set_lines(vim.split(text, '\n'))
+  ctx.preview:highlight { ft = 'markdown' }
+  ctx.preview:wo { wrap = true, linebreak = true, breakindent = true }
+end
+
 return {
   'folke/snacks.nvim',
   priority = 1000,
@@ -102,6 +118,8 @@ return {
       sources = {
         explorer = { hidden = true, ignored = false },
         files = { hidden = true, ignored = false },
+        diagnostics = { preview = diagnostic_preview },
+        diagnostics_buffer = { preview = diagnostic_preview },
       },
     },
   },
